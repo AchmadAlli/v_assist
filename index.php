@@ -108,11 +108,11 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $result = $bot->replyMessage($event['replyToken'], $imageMessage);
                         }
 
-                        if (strtolower($event['message']['text']) == 'tampiltika') // tampilkan gambar
-                        {
-                            $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/tika.jpg", "https://arizalmhmd5.000webhostapp.com/tika.jpg");
-                            $result = $bot->replyMessage($event['replyToken'], $imageMessage);
-                        }
+                        // if (strtolower($event['message']['text']) == 'tampiltika') // tampilkan gambar
+                        // {
+                        //     $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/tika.jpg", "https://arizalmhmd5.000webhostapp.com/tika.jpg");
+                        //     $result = $bot->replyMessage($event['replyToken'], $imageMessage);
+                        // }
                     }
                 } else { // jika pc
                     if ($event['message']['type'] == 'text') {
