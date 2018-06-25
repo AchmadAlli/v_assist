@@ -70,8 +70,14 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         $getprofile = $bot->getProfile($userId);
                         $profile = $getprofile->getJSONDecodedBody();
 
-                        if (strtolower($event['message']['text']) == 'hai') {
+                        if (strtolower($event['message']['text']) == 'hai') 
+                        {
                             $replyMessage = "Hai namaku adalah VISI, aku adalah virtual assisten kamu (love)";
+                            $result = $bot->replyText($event['replyToken'], $replyMessage);
+                        }
+
+                        if (strtolower(substr($event['message']['text'], 0, 6)) == 'apakah') {
+                            $replyMessage = (rand(0, 1)) ? "iya" : "tidak";
                             $result = $bot->replyText($event['replyToken'], $replyMessage);
                         }
                     }
@@ -81,8 +87,15 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         $getprofile = $bot->getProfile($userId);
                         $profile = $getprofile->getJSONDecodedBody();
                         
-                        if (strtolower($event['message']['text']) == 'hai') {
+                        if (strtolower($event['message']['text']) == 'hai') 
+                        {
                             $replyMessage = "Hai namaku adalah VISI, aku adalah virtual assisten kamu (love)";
+                            $result = $bot->replyText($event['replyToken'], $replyMessage);
+                        }
+
+                        if (strtolower(substr($event['message']['text'], 0, 6)) == 'apakah')
+                        {
+                            $replyMessage = (rand(0, 1)) ? "iya" : "tidak";
                             $result = $bot->replyText($event['replyToken'], $replyMessage);
                         }
                     }
