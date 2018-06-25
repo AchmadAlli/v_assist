@@ -136,25 +136,20 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         {
                             $carouselTemplateBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder([
                                 new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil')
+                                    new MessageTemplateActionBuilder('Detail', 'tampil-gantungan')
                                 ]),
-                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil')
-                                ]),
-                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil')
-                                ]),
-                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil')
+                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/stiker.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'tampil-stiker')
                                 ]),
                             ]);
                             $templateMessage = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
                             $result = $bot->replyMessage($event['replyToken'], $templateMessage);
                         }
 
-                        if (strtolower($event['message']['text']) == 'tampil') // tampilkan gambar
+                        if (strtolower( substr($event['message']['text'], 0, 6) ) == 'tampil') // tampilkan gambar
                         {
-                            $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/gantungan.jpg", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg");
+                            $split = str_split($event['message']['text'], 7);
+                            $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/". $split[1] .".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg");
                             $result = $bot->replyMessage($event['replyToken'], $imageMessage);
                         }
                     }
