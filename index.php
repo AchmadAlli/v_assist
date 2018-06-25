@@ -10,6 +10,7 @@ use \LINE\LINEBot\MessageBuilder\ImageMessageBuilder;
 use \LINE\LINEBot\SignatureValidator as SignatureValidator;
 use LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateMessageBuilder;
+use LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder;
 
 // set false for production
 $pass_signature = true;
@@ -152,7 +153,8 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $split = str_split($event['message']['text'], 7);
                             // $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/". $split[1] .".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg");
                             $multipleMessageBuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
-                            $multipleMessageBuilder->add(new TextMessageBuilder('text1', 'text2'));
+                            $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"))
+                                                   ->add(new TextMessageBuilder('text1', 'text2'));
                             $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                         }
                     }
