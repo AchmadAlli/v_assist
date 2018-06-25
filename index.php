@@ -151,10 +151,9 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         {
                             $split = str_split($event['message']['text'], 7);
                             // $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/". $split[1] .".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg");
-                            $multipleReply = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
-                            $multipleReply->add(new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"))
-                                          ->add(new TemplateMessageBuilder("ini deskripsinya", "deskripsinya lagi"));
-                            $result = $bot->replyMessage($event['replyToken'], $multipleReply);
+                            $multipleMessageBuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+                            $multipleMessageBuilder->add(new TextMessageBuilder('text1', 'text2'));
+                            $res = $bot->replyMessage('your-reply-token', $multipleMessageBuilder);
                         }
                     }
                 }
