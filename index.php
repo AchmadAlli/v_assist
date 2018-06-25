@@ -135,11 +135,11 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         if (strtolower($event['message']['text']) == 'listbarang') // carousel market place
                         {
                             $carouselTemplateBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder([
-                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil-gantungan')
+                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang1')
                                 ]),
-                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/stiker.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil-stiker')
+                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Sticker", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang2')
                                 ]),
                             ]);
                             $templateMessage = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
