@@ -99,10 +99,9 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $result = $bot->replyText($event['replyToken'], $replyMessage);
                         }
 
-                        if (strtolower($event['message']['text']) == 'tampil')
-                        {
-                            $replyMessage = new \Line\LINEBot\MessageBuilder\ImageMessageBuilder("http://arizalmhmd5.000webhostapp.com/1.jpeg", "http://arizalmhmd5.000webhostapp.com/1.jpeg");
-                            $result = $bot->replyMessage($event['replyToken'], $replyMessage);
+                        if (strtolower(substr($event['message']['text'], 0, 6)) == 'apakah') {
+                            $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://myanimelist.cdn-dena.com/images/characters/8/320273.jpg", "https://myanimelist.cdn-dena.com/images/characters/8/320273.jpg");
+                            $result = $bot->replyMessage($event['replyToken'], $imageMessage);
                         }
                     }
                 }
