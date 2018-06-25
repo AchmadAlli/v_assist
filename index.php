@@ -150,7 +150,17 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         {
                             $split = str_split($event['message']['text'], 7);
                             $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/". $split[1] .".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg");
-                            $result = $bot->replyMessage($event['replyToken'], $imageMessage);
+                            $result = $bot->replyMessage($event['replyToken'], [
+                                [
+                                    'type' => 'image',
+                                    "originalContentUrl" => "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg",
+                                    "previewImageUrl" => "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"
+                                ],
+                                [
+                                    "type" => "text",
+                                    "text" => "ini deskripsi dari barangnya merchand nya"
+                                ]
+                            ]);
                         }
                     }
                 }
