@@ -99,26 +99,17 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $result = $bot->replyText($event['replyToken'], $replyMessage);
                         }
 
-                        if (strtolower($event['message']['text']) == 'tampil-barang')
+                        if (strtolower($event['message']['text']) == 'listbarang')
                         {
-                            $carouselTemplateBuilder = new CarouselTemplateBuilder([
-                                new CarouselColumnTemplateBuilder("Menu", "Menu FoneBot", "https://farkhan.000webhostapp.com/b1.jpg", [
-                                    new MessageTemplateActionBuilder('SMS', '/sms'),
-                                    new MessageTemplateActionBuilder('SiamBot', '/IPK'),
-                                    new MessageTemplateActionBuilder('Jadwal Sholat', '/jadwal'),
+                            $carouselTemplateBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder([
+                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("title", "text", "https://i0.wp.com/angryanimebitches.com/wp-content/uploads/2013/03/tamakomarket-overallreview-tamakoanddera.jpg", [
+                                    new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('buka', "http://hilite.me/"),
                                 ]),
-                                new CarouselColumnTemplateBuilder("Menu", "Menu FoneBot ", "https://farkhan.000webhostapp.com/b1.jpg", [
-                                    new MessageTemplateActionBuilder('PHP', $phpnya),
-                                    new MessageTemplateActionBuilder('UserID', '/userid'),
-                                    new MessageTemplateActionBuilder('GroupID', '/groupid'),
-                                ]),
-                                new CarouselColumnTemplateBuilder("Developer", "Farkhan Azmi Filkom UB", "https://farkhan.000webhostapp.com/b2.jpg", [
-                                    new UriTemplateActionBuilder('Line', "http://line.me/ti/p/~foneazm"),
-                                    new UriTemplateActionBuilder('Github', "http://github.com/foneazmi/"),
-                                    new UriTemplateActionBuilder('LinkedIn', "https://linkedin.com/in/farkhanazmi/"),
+                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("title", "text", "https://i0.wp.com/angryanimebitches.com/wp-content/uploads/2013/03/tamakomarket-overallreview-tamakoanddera.jpg", [
+                                    new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('Buka', "http://hilite.me/"),
                                 ]),
                             ]);
-                            $templateMessage = new TemplateMessageBuilder('Help FoneBot', $carouselTemplateBuilder);
+                            $templateMessage = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('nama template', $carouselTemplateBuilder);
                             $result = $bot->replyMessage($event['replyToken'], $templateMessage);
                         }
 
