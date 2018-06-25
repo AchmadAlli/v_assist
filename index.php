@@ -9,6 +9,7 @@ use \LINE\LINEBot\MessageBuilder\StickerMessageBuilder;
 use \LINE\LINEBot\MessageBuilder\ImageMessageBuilder;
 use \LINE\LINEBot\SignatureValidator as SignatureValidator;
 use LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateMessageBuilder;
 
 // set false for production
 $pass_signature = true;
@@ -149,32 +150,11 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         if (strtolower( substr($event['message']['text'], 0, 6) ) == 'tampil') // tampilkan gambar
                         {
                             $split = str_split($event['message']['text'], 7);
-                            $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/". $split[1] .".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg");
-                            // $result = $bot->replyMessage($event['replyToken'], [
-                            //     [
-                            //         'type' => 'image',
-                            //         "originalContentUrl" => "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg",
-                            //         "previewImageUrl" => "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"
-                            //     ],
-                            //     [
-                            //         "type" => "text",
-                            //         "text" => "ini deskripsi dari barangnya merchand nya"
-                            //     ]
-                            // ]);
-                            $result = $bot->replyMessage([
-                                'replyToken' => $event['replyToken'],
-                                'messages'   => [
-                                    [
-                                        'type' => 'image',
-                                        "originalContentUrl" => "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg",
-                                        "previewImageUrl" => "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"
-                                    ],
-                                    [
-                                        "type" => "text",
-                                        "text" => "ini deskripsi dari barangnya merchand nya"
-                                    ]
-                                ]
-                            ]);
+                            // $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/". $split[1] .".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg");
+                            $multipleReply = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+                            $multipleReply->add(new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"))
+                                          ->add(new TemplateMessageBuilder("ini deskripsinya", "deskripsinya lagi"));
+                            $result = $bot->replyMessage($event['replyToken'], $multipleReply);
                         }
                     }
                 }
