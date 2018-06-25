@@ -51,7 +51,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
         }
     }
 
-    // kode aplikasi nanati disini
+    // kode aplikasi nanti disini
     $data = json_decode($body, true);
     if (is_array($data['events'])) {
         foreach ($data['events'] as $event) {
@@ -72,7 +72,9 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
 
                         if ($event['message']['text'] == 'hai') {
                             $replyMessage = "Hai namaku adalah VISI, aku adalah virtual assisten kamu (love)";
-                            $result = $bot->replyText($event['replyToken'], $replyMessage);
+                            $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($replyMessage);
+                            $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                            return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                         }
                     }
                 } else { // jika pc
