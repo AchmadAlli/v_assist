@@ -99,6 +99,29 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $result = $bot->replyText($event['replyToken'], $replyMessage);
                         }
 
+                        if (strtolower($event['message']['text']) == 'tampil-barang')
+                        {
+                            $carouselTemplateBuilder = new CarouselTemplateBuilder([
+                                new CarouselColumnTemplateBuilder("Menu", "Menu FoneBot", "https://farkhan.000webhostapp.com/b1.jpg", [
+                                    new MessageTemplateActionBuilder('SMS', '/sms'),
+                                    new MessageTemplateActionBuilder('SiamBot', '/IPK'),
+                                    new MessageTemplateActionBuilder('Jadwal Sholat', '/jadwal'),
+                                ]),
+                                new CarouselColumnTemplateBuilder("Menu", "Menu FoneBot ", "https://farkhan.000webhostapp.com/b1.jpg", [
+                                    new MessageTemplateActionBuilder('PHP', $phpnya),
+                                    new MessageTemplateActionBuilder('UserID', '/userid'),
+                                    new MessageTemplateActionBuilder('GroupID', '/groupid'),
+                                ]),
+                                new CarouselColumnTemplateBuilder("Developer", "Farkhan Azmi Filkom UB", "https://farkhan.000webhostapp.com/b2.jpg", [
+                                    new UriTemplateActionBuilder('Line', "http://line.me/ti/p/~foneazm"),
+                                    new UriTemplateActionBuilder('Github', "http://github.com/foneazmi/"),
+                                    new UriTemplateActionBuilder('LinkedIn', "https://linkedin.com/in/farkhanazmi/"),
+                                ]),
+                            ]);
+                            $templateMessage = new TemplateMessageBuilder('Help FoneBot', $carouselTemplateBuilder);
+                            $result = $bot->replyMessage($event['replyToken'], $templateMessage);
+                        }
+
                         if (strtolower($event['message']['text']) == 'tampil') {
                             $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/gantungan.jpg", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg");
                             $result = $bot->replyMessage($event['replyToken'], $imageMessage);
