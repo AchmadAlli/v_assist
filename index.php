@@ -8,6 +8,7 @@ use \LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 use \LINE\LINEBot\MessageBuilder\StickerMessageBuilder;
 use \LINE\LINEBot\MessageBuilder\ImageMessageBuilder;
 use \LINE\LINEBot\SignatureValidator as SignatureValidator;
+use LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder;
 
 // set false for production
 $pass_signature = true;
@@ -102,14 +103,20 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         if (strtolower($event['message']['text']) == 'listbarang')
                         {
                             $carouselTemplateBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder([
-                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("title", "text", "https://i0.wp.com/angryanimebitches.com/wp-content/uploads/2013/03/tamakomarket-overallreview-tamakoanddera.jpg", [
-                                    new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('buka', "http://hilite.me/"),
+                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'tampil')
                                 ]),
-                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("title", "text", "https://i0.wp.com/angryanimebitches.com/wp-content/uploads/2013/03/tamakomarket-overallreview-tamakoanddera.jpg", [
-                                    new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('Buka', "http://hilite.me/"),
+                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'tampil')
+                                ]),
+                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'tampil')
+                                ]),
+                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'tampil')
                                 ]),
                             ]);
-                            $templateMessage = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('nama template', $carouselTemplateBuilder);
+                            $templateMessage = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
                             $result = $bot->replyMessage($event['replyToken'], $templateMessage);
                         }
 
