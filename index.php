@@ -81,26 +81,8 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $replyMessage = (rand(0, 1)) ? "iya" : "tidak";
                             $result = $bot->replyText($event['replyToken'], $replyMessage);
                         }
-                    }
-                } else { // jika pc
-                    if ($event['message']['type'] == 'text') {
-                        $userId = $event['source']['userId'];
-                        $getprofile = $bot->getProfile($userId);
-                        $profile = $getprofile->getJSONDecodedBody();
-                        
-                        if (strtolower($event['message']['text']) == 'hai') 
-                        {
-                            $replyMessage = "Hai namaku adalah VISI, aku adalah virtual assisten kamu (love)";
-                            $result = $bot->replyText($event['replyToken'], $replyMessage);
-                        }
 
-                        if (strtolower(substr($event['message']['text'], 0, 6)) == 'apakah')
-                        {
-                            $replyMessage = (rand(0, 1)) ? "iya" : "tidak";
-                            $result = $bot->replyText($event['replyToken'], $replyMessage);
-                        }
-
-                        if (strtolower($event['message']['text']) == 'listbarang')
+                        if (strtolower($event['message']['text']) == 'listbarang') // carousel market place
                         {
                             $carouselTemplateBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder([
                                 new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
@@ -120,7 +102,52 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $result = $bot->replyMessage($event['replyToken'], $templateMessage);
                         }
 
-                        if (strtolower($event['message']['text']) == 'tampil') {
+                        if (strtolower($event['message']['text']) == 'tampil') // tampilkan gambar
+                        {
+                            $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/gantungan.jpg", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg");
+                            $result = $bot->replyMessage($event['replyToken'], $imageMessage);
+                        }
+                    }
+                } else { // jika pc
+                    if ($event['message']['type'] == 'text') {
+                        $userId = $event['source']['userId'];
+                        $getprofile = $bot->getProfile($userId);
+                        $profile = $getprofile->getJSONDecodedBody();
+                        
+                        if (strtolower($event['message']['text']) == 'hai') // perkenalan
+                        {
+                            $replyMessage = "Hai namaku adalah VISI, aku adalah virtual assisten kamu (love)";
+                            $result = $bot->replyText($event['replyToken'], $replyMessage);
+                        }
+
+                        if (strtolower(substr($event['message']['text'], 0, 6)) == 'apakah') // kerang ajaib
+                        {
+                            $replyMessage = (rand(0, 1)) ? "iya" : "tidak";
+                            $result = $bot->replyText($event['replyToken'], $replyMessage);
+                        }
+
+                        if (strtolower($event['message']['text']) == 'listbarang') // carousel market place
+                        {
+                            $carouselTemplateBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder([
+                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'tampil')
+                                ]),
+                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'tampil')
+                                ]),
+                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'tampil')
+                                ]),
+                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'tampil')
+                                ]),
+                            ]);
+                            $templateMessage = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
+                            $result = $bot->replyMessage($event['replyToken'], $templateMessage);
+                        }
+
+                        if (strtolower($event['message']['text']) == 'tampil') // tampilkan gambar
+                        {
                             $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/gantungan.jpg", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg");
                             $result = $bot->replyMessage($event['replyToken'], $imageMessage);
                         }
