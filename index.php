@@ -102,6 +102,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         if (strtolower(substr($event['message']['text'], 0, 6)) == 'apakah') {
                             $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://myanimelist.cdn-dena.com/images/characters/8/320273.jpg", "https://myanimelist.cdn-dena.com/images/characters/8/320273.jpg");
                             $result = $bot->replyMessage($event['replyToken'], $imageMessage);
+                            return $result->getHTTPStatus() . ' ' . $result->getRawBody();
                         }
                     }
                 }
