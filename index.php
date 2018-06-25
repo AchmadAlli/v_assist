@@ -67,6 +67,10 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     // bla bla
                 } else { // jika pc
                     if ($event['message']['type'] == 'text') {
+                        $userId = $event['source']['userId'];
+                        $getprofile = $bot->getProfile($userId);
+                        $profile = $getprofile->getJSONDecodedBody();
+                        
                         if ($event['message']['text'] == 'siapa kamu ?') {
                             $replyMessage = "Hai namaku adalah VISI, aku adalah virtual assisten kamu (love)";
                             $result = $bot->replyText($event['replyToken'], $replyMessage);
