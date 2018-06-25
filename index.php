@@ -13,8 +13,8 @@ use \LINE\LINEBot\SignatureValidator as SignatureValidator;
 $pass_signature = true;
  
 // set LINE channel_access_token and channel_secret
-$channel_access_token = getenv('ch_acc_token');
-$channel_secret = getenv('ch_secret');
+$channel_access_token = getenv('accessToken');
+$channel_secret = getenv('channelSecret');
 
 // inisiasi objek bot
 $httpClient = new CurlHTTPClient($channel_access_token);
@@ -72,9 +72,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
 
                         if ($event['message']['text'] == 'hai') {
                             $replyMessage = "Hai namaku adalah VISI, aku adalah virtual assisten kamu (love)";
-                            $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($replyMessage);
-                            $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
-                            return $result->getHTTPStatus() . ' ' . $result->getRawBody();
+                            $result = $bot->replyText($event['replyToken'], $replyMessage);
                         }
                     }
                 } else { // jika pc
