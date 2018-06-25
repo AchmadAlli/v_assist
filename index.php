@@ -100,7 +100,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         }
 
                         if (strtolower($event['message']['text']) == 'tampil') {
-                            $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://myanimelist.cdn-dena.com/images/characters/8/320273.jpg", "http://arizalmhmd5.000webhostapp.com/1.jpeg");
+                            $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("http://arizalmhmd5.000webhostapp.com/1.jpeg", "http://arizalmhmd5.000webhostapp.com/1.jpeg");
                             $result = $bot->replyMessage($event['replyToken'], $imageMessage);
                         }
                     }
