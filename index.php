@@ -65,6 +65,16 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                 if ($event['source']['type'] == 'group' or $event['source']['type'] == 'room') 
                 {
                     // bla bla
+                    if ($event['message']['type'] == 'text') {
+                        $userId = $event['source']['userId'];
+                        $getprofile = $bot->getProfile($userId);
+                        $profile = $getprofile->getJSONDecodedBody();
+
+                        if ($event['message']['text'] == 'hai') {
+                            $replyMessage = "Hai namaku adalah VISI, aku adalah virtual assisten kamu (love)";
+                            $result = $bot->replyText($event['replyToken'], $replyMessage);
+                        }
+                    }
                 } else { // jika pc
                     if ($event['message']['type'] == 'text') {
                         $userId = $event['source']['userId'];
