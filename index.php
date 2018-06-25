@@ -98,6 +98,12 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $replyMessage = (rand(0, 1)) ? "iya" : "tidak";
                             $result = $bot->replyText($event['replyToken'], $replyMessage);
                         }
+
+                        if (strtolower($event['message']['text']) == 'tampil')
+                        {
+                            $replyMessage = new \Line\LINEBot\MessageBuilder\ImageMessageBuilder("http://arizalmhmd5.000webhostapp.com/1.jpeg", "http://arizalmhmd5.000webhostapp.com/1.jpeg");
+                            $result = $bot->replyMessage($event['replyToken'], $replyMessage);
+                        }
                     }
                 }
             }
