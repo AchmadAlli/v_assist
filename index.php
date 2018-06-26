@@ -154,7 +154,14 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             // $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/". $split[1] .".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg");
                             $multipleMessageBuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
                             $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"))
-                                                   ->add(new TextMessageBuilder('Deskripsi Barang\n bla bla bla', 'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi'));
+                                                   ->add(new TextMessageBuilder('Deskripsi Barang\n bla bla bla', 'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi'))
+                                                   ->add(new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder(
+                                                        "Mau pre-order?",
+                                                        [
+                                                            new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('YA', "https://instagram.com/arizalmhmd5"),
+                                                            new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('Tidak', 'gak jadi hehe'),
+                                                        ]
+                                                    ));
                             $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                         }
                     }
