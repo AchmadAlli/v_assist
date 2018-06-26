@@ -7,10 +7,15 @@ use \LINE\LINEBot\MessageBuilder\MultiMessageBuilder;
 use \LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 use \LINE\LINEBot\MessageBuilder\StickerMessageBuilder;
 use \LINE\LINEBot\MessageBuilder\ImageMessageBuilder;
+use \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder;
+use \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder;
+use \LINE\LINEBot\MessageBuilder\TemplateBuilder;
+use \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder;
+use \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder;
+use \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder;
+use \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder;
+use \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder;
 use \LINE\LINEBot\SignatureValidator as SignatureValidator;
-use LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder;
-use LINE\LINEBot\MessageBuilder\TemplateMessageBuilder;
-use LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder;
 
 // set false for production
 $pass_signature = true;
@@ -67,68 +72,8 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                 // jika group
                 if ($event['source']['type'] == 'group' or $event['source']['type'] == 'room') 
                 {
-                    // bla bla
+                    // bla bla bla
                     if ($event['message']['type'] == 'text') {
-                        $userId = $event['source']['userId'];
-                        $getprofile = $bot->getProfile($userId);
-                        $profile = $getprofile->getJSONDecodedBody();
-
-                        if (strtolower($event['message']['text']) == 'hai') 
-                        {
-                            $replyMessage = "Hai namaku adalah VISI, aku adalah virtual assisten kamu (love)";
-                            $result = $bot->replyText($event['replyToken'], $replyMessage);
-                        }
-
-                        if (strtolower(substr($event['message']['text'], 0, 6)) == 'apakah') {
-                            $replyMessage = (rand(0, 1)) ? "iya" : "tidak";
-                            $result = $bot->replyText($event['replyToken'], $replyMessage);
-                        }
-
-                        if (strtolower($event['message']['text']) == 'listbarang') // carousel market place
-                        {
-                            $carouselTemplateBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder([
-                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang1')
-                                ]),
-                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Sticker", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang2')
-                                ]),
-                            ]);
-                            $templateMessage = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
-                            $result = $bot->replyMessage($event['replyToken'], $templateMessage);
-                        }
-
-                        if (strtolower(substr($event['message']['text'], 0, 6)) == 'tampil') // tampilkan gambar
-                        {
-                            $split = str_split($event['message']['text'], 7);
-                            $multipleMessageBuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
-                            $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"))
-                                ->add(new TextMessageBuilder("Deskripsi Barang\n bla bla bla", 'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi'))
-                                ->add(new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder(
-                                    'Jadi pre-Order ?',
-                                    new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder(
-                                        "Jadi pre-Order ?",
-                                        [
-                                            new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('Ya', 'http://rajabrawijaya.ub.ac.id/'),
-                                            new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('Tidak', 'gak jadi hehe'),
-                                        ]
-                                    )
-                                ));
-                            $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
-                        }
-
-                        // if (strtolower($event['message']['text']) == 'tampiltika') // tampilkan gambar
-                        // {
-                        //     $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/tika.jpg", "https://arizalmhmd5.000webhostapp.com/tika.jpg");
-                        //     $result = $bot->replyMessage($event['replyToken'], $imageMessage);
-                        // }
-                    }
-                } else { // jika pc
-                    if ($event['message']['type'] == 'text') {
-                        $userId = $event['source']['userId'];
-                        $getprofile = $bot->getProfile($userId);
-                        $profile = $getprofile->getJSONDecodedBody();
-                        
                         if (strtolower($event['message']['text']) == 'hai') // perkenalan
                         {
                             $replyMessage = "Hai namaku adalah VISI, aku adalah virtual assisten kamu (love)";
@@ -143,47 +88,84 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
 
                         if (strtolower($event['message']['text']) == 'listbarang') // carousel market place
                         {
-                            $carouselTemplateBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder([
-                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
+                            $carouselTemplateBuilder = new CarouselTemplateBuilder([
+                                new CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
                                     new MessageTemplateActionBuilder('Detail', 'tampil-barang1')
                                 ]),
-                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Sticker", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
+                                new CarouselColumnTemplateBuilder("Sticker", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
                                     new MessageTemplateActionBuilder('Detail', 'tampil-barang2')
                                 ]),
                             ]);
-                            $templateMessage = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
+                            $templateMessage = new TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
                             $result = $bot->replyMessage($event['replyToken'], $templateMessage);
                         }
 
-                        if (strtolower( substr($event['message']['text'], 0, 6) ) == 'tampil') // tampilkan gambar
+                        if (strtolower(substr($event['message']['text'], 0, 6)) == 'tampil') // tampilkan detail product
                         {
                             $split = str_split($event['message']['text'], 7);
-                            $multipleMessageBuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
-                            $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"))
-                                                   ->add(new TextMessageBuilder("Deskripsi Barang\n bla bla bla", 'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi'))
-                                                   ->add(new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('nama template', 
-                                                        new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder(
-                                                            "Jadi pre-Order ?",
-                                                            [
-                                                                new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('Ya', 'http://rajabrawijaya.ub.ac.id/'),
-                                                                new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('Tidak', 'gak jadi hehe'),
-                                                            ]
-                                                        )
-                                                    ));
+                            $multipleMessageBuilder = new MultiMessageBuilder;
+                            $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
+                                ->add(new TextMessageBuilder("Deskripsi Barang \nbla bla bla", 'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi')) // deskripsi product
+                                ->add(new TemplateMessageBuilder(
+                                    'Confirmation pre-Order',
+                                    new ConfirmTemplateBuilder( // confirmation pre-Order
+                                        "Confirmation pre-Order",
+                                        [
+                                            new UriTemplateActionBuilder('Ya', 'http://rajabrawijaya.ub.ac.id/'),
+                                            new MessageTemplateActionBuilder('Tidak', 'gak jadi hehe'),
+                                        ]
+                                    )
+                                ));
                             $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                         }
+                    }
+                } else { // jika pc
+                    // bla bla bla
+                    if ($event['message']['type'] == 'text') {
+                        if (strtolower($event['message']['text']) == 'hai') // perkenalan
+                        {
+                            $replyMessage = "Hai namaku adalah VISI, aku adalah virtual assisten kamu (love)";
+                            $result = $bot->replyText($event['replyToken'], $replyMessage);
+                        }
 
-                        // if (strtolower($event['message']['text']) == 'confirm') {
-                        //     $confirmTemplateBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder(
-                        //         "apakah gw ganteng?",
-                        //         [
-                        //             new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('Ya', 'https://github.com/arzainchi'),
-                        //             new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('Tidak', '/tidak'),
-                        //         ]
-                        //     );
-                        //     $templateMessage = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('nama template', $confirmTemplateBuilder);
-                        //     $result = $bot->replyMessage($event['replyToken'], $templateMessage);
-                        // }
+                        if (strtolower(substr($event['message']['text'], 0, 6)) == 'apakah') // kerang ajaib
+                        {
+                            $replyMessage = (rand(0, 1)) ? "iya" : "tidak";
+                            $result = $bot->replyText($event['replyToken'], $replyMessage);
+                        }
+
+                        if (strtolower($event['message']['text']) == 'listbarang') // carousel market place
+                        {
+                            $carouselTemplateBuilder = new CarouselTemplateBuilder([
+                                new CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang1')
+                                ]),
+                                new CarouselColumnTemplateBuilder("Sticker", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang2')
+                                ]),
+                            ]);
+                            $templateMessage = new TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
+                            $result = $bot->replyMessage($event['replyToken'], $templateMessage);
+                        }
+
+                        if (strtolower(substr($event['message']['text'], 0, 6)) == 'tampil') // tampilkan detail product
+                        {
+                            $split = str_split($event['message']['text'], 7);
+                            $multipleMessageBuilder = new MultiMessageBuilder;
+                            $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
+                                ->add(new TextMessageBuilder("Deskripsi Barang \nbla bla bla", 'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi')) // deskripsi product
+                                ->add(new TemplateMessageBuilder(
+                                    'Confirmation pre-Order',
+                                    new ConfirmTemplateBuilder( // confirmation pre-Order
+                                        "Confirmation pre-Order",
+                                        [
+                                            new UriTemplateActionBuilder('Ya', 'http://rajabrawijaya.ub.ac.id/'),
+                                            new MessageTemplateActionBuilder('Tidak', 'gak jadi hehe'),
+                                        ]
+                                    )
+                                ));
+                            $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
+                        }
                     }
                 }
             }
