@@ -119,7 +119,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                         }
                         
-                        if (strtolower($event['message']['text']) == 'tagme') {
+                        if (strtolower($event['message']['text']) == 'groupid') {
                             $result = $bot->replyMessage($event['replyToken'], $userId);
                         }
                     }
