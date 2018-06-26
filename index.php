@@ -105,7 +105,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"))
                                 ->add(new TextMessageBuilder("Deskripsi Barang\n bla bla bla", 'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi'))
                                 ->add(new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder(
-                                    'nama template',
+                                    'Jadi pre-Order ?',
                                     new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder(
                                         "Jadi pre-Order ?",
                                         [
