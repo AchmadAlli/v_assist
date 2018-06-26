@@ -152,24 +152,9 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         {
                             $split = str_split($event['message']['text'], 7);
                             // $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/". $split[1] .".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg");
-                            $deskripsiBarang = [
-                                "
-                                Deskripsi Barang\n
-                                Ukuran\t: 100mm x 100mm\n
-                                Berat\t: 100gram\n
-                                Bahan\t: impor dari korea utara\n
-                                Kualitas : buruk pakek beut syekale
-                                ",
-                                "Fiitur ini hanya digunakan untuk melihat detail barang, untuk pre-order silahkan klik YA dibawah ini untuk diarahkan ke website resmi."
-                            ];
                             $multipleMessageBuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
                             $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"))
-                                                   ->add(new TextMessageBuilder('text1', 'text2'))
-                                                   ->add(new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder(
-                                                       "Mau pre order",
-                                                       new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('YA', "/ya"),
-                                                       new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('TIDAK', 'tidak')
-                                                   ));
+                                                   ->add(new TextMessageBuilder('Deskripsi Barang\n bla bla bla', 'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi'));
                             $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                         }
                     }
