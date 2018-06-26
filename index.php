@@ -108,8 +108,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $multipleMessageBuilder = new MultiMessageBuilder;
                             $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
                                     ->add(new TextMessageBuilder( // deskripsi product
-                                        "Deskripsi Barang \nbla bla bla", 
-                                        'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi'
+                                        "Deskripsi Barang \nbla bla bla"
                                     ));
                             $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                         }
@@ -151,8 +150,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $multipleMessageBuilder = new MultiMessageBuilder;
                             $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
                                 ->add(new TextMessageBuilder( // deskripsi product
-                                    "Deskripsi Barang \nbla bla bla", 
-                                    'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi'
+                                    "Deskripsi Barang \nbla bla bla"
                                 ));
                             $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                         }
