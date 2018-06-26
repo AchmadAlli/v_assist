@@ -120,7 +120,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         }
                         
                         if (strtolower($event['message']['text']) == 'groupid') {
-                            $result = $bot->replyMessage($event['replyToken'], $userId);
+                            $result = $bot->replyText($event['replyToken'], $userId);
                         }
                     }
                 } else { // jika pc
