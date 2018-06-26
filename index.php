@@ -128,6 +128,13 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         {
                             $result = $bot->replyText($event['replyToken'], $userId);
                         }
+
+                        if (strtolower($event['message']['text']) == 'coba')
+                        {
+                            $output = $bot->getGroupMemberProfile($event['source']['groupId'], $userId);
+                            $datanya = json_decode($output, true);
+                            $result = $bot->replyText($event['replyToken'], $datanya['displayName']);
+                        }
                     }
                 } else { // jika pc
                     // bla bla bla
