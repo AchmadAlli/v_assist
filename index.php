@@ -120,7 +120,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         }
                         
                         if (strtolower($event['message']['text']) == 'tagme') {
-                            $result = $bot->replyText($event['replyToken'], "@". $event['source']['displayName']);
+                            $result = $bot->replyText($event['replyToken'], "@". $getprofile->displayName);
                         }
                     }
                 } else { // jika pc
