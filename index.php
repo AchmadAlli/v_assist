@@ -109,7 +109,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                                 ->add(new TemplateMessageBuilder(
                                     'Confirmation pre-Order',
                                     new ConfirmTemplateBuilder( // confirmation pre-Order
-                                        "Confirmation pre-Order",
+                                        "Jadi pre-Order",
                                         [
                                             new UriTemplateActionBuilder('Ya', 'http://rajabrawijaya.ub.ac.id/'),
                                             new MessageTemplateActionBuilder('Tidak', 'gak jadi hehe'),
@@ -157,7 +157,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                                 ->add(new TemplateMessageBuilder(
                                     'Confirmation pre-Order',
                                     new ConfirmTemplateBuilder( // confirmation pre-Order
-                                        "Confirmation pre-Order",
+                                        "Jadi pre-Order",
                                         [
                                             new UriTemplateActionBuilder('Ya', 'http://rajabrawijaya.ub.ac.id/'),
                                             new MessageTemplateActionBuilder('Tidak', 'gak jadi hehe'),
