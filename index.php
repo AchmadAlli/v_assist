@@ -155,27 +155,29 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $multipleMessageBuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
                             $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"))
                                                    ->add(new TextMessageBuilder('Deskripsi Barang\n bla bla bla', 'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi'))
-                                                   ->add(new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder(
-                                                        "Mau pre-order?",
-                                                        [
-                                                            new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('YA', "https://instagram.com/arizalmhmd5"),
-                                                            new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('Tidak', 'gak jadi hehe'),
-                                                        ]
+                                                   ->add(new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('nama template', 
+                                                        new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder(
+                                                            "apakah gw ganteng?",
+                                                            [
+                                                                new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('Ya', 'https://github.com/arzainchi'),
+                                                                new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('Tidak', '/tidak'),
+                                                            ]
+                                                        )
                                                     ));
                             $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                         }
 
-                        if (strtolower($event['message']['text']) == 'confirm') {
-                            $confirmTemplateBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder(
-                                "apakah gw ganteng?",
-                                [
-                                    new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('Ya', 'https://github.com/arzainchi'),
-                                    new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('Tidak', '/tidak'),
-                                ]
-                            );
-                            $templateMessage = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('nama template', $confirmTemplateBuilder);
-                            $result = $bot->replyMessage($event['replyToken'], $templateMessage);
-                        }
+                        // if (strtolower($event['message']['text']) == 'confirm') {
+                        //     $confirmTemplateBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder(
+                        //         "apakah gw ganteng?",
+                        //         [
+                        //             new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('Ya', 'https://github.com/arzainchi'),
+                        //             new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('Tidak', '/tidak'),
+                        //         ]
+                        //     );
+                        //     $templateMessage = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('nama template', $confirmTemplateBuilder);
+                        //     $result = $bot->replyMessage($event['replyToken'], $templateMessage);
+                        // }
                     }
                 }
             }
