@@ -118,9 +118,16 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                                 ));
                             $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                         }
-                        
-                        if (strtolower($event['message']['text']) == 'groupid') {
+
+                        if (strtolower($event['message']['text']) == 'groupId') // tampilkan groupId
+                        {
                             $result = $bot->replyText($event['replyToken'], $event['source']['groupId']);
+                        }
+
+                        if (strtolower($event['message']['text']) == 'tagme')
+                        {
+                            $profile = $bot->getRoomMemberProfile($event['source']['groupId'], $userId);
+                            $result = $bot->replyText($event['replyToken'], '@'.$profile['displayName']);
                         }
                     }
                 } else { // jika pc
