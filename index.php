@@ -169,7 +169,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $confirmTemplateBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder(
                                 "apakah gw ganteng?",
                                 [
-                                    new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('Ya', "/ya"),
+                                    new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('Ya', 'https://github.com/arzainchi'),
                                     new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('Tidak', '/tidak'),
                                 ]
                             );
