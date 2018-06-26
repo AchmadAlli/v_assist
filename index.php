@@ -167,8 +167,8 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                                                    ->add(new TextMessageBuilder($deskripsiBarang))
                                                    ->add(new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder(
                                                        "Mau pre order",
-                                                       new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder("YA", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"),
-                                                       new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("TIDAK", "gak jadi hehe")
+                                                       new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('YA', "/ya"),
+                                                       new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('TIDAK', 'tidak')
                                                    ));
                             $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                         }
