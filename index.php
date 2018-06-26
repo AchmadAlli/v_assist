@@ -132,8 +132,13 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         if (strtolower($event['message']['text']) == 'coba')
                         {
                             $datanya = $getprofile->getJSONDecodedBody();
-                            $result = $bot->replyText($event['replyToken'], $datanya['displayName']);
+                            $result = $bot->replyText($event['replyToken'], '@'.$datanya['displayName']);
                         }
+
+                        // if (strtolower($event['message']['text']) == 'cobalagi')
+                        // {
+                        //     $output = $bot->getGroupMemberProfile($)
+                        // }
                     }
                 } else { // jika pc
                     // bla bla bla
