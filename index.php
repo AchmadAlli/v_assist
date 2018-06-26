@@ -104,10 +104,23 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $result = $bot->replyMessage($event['replyToken'], $templateMessage);
                         }
 
-                        if (strtolower($event['message']['text']) == 'tampil') // tampilkan gambar
+                        if (strtolower(substr($event['message']['text'], 0, 6)) == 'tampil') // tampilkan gambar
                         {
-                            $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/gantungan.jpg", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg");
-                            $result = $bot->replyMessage($event['replyToken'], $imageMessage);
+                            $split = str_split($event['message']['text'], 7);
+                            $multipleMessageBuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+                            $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"))
+                                ->add(new TextMessageBuilder('Deskripsi Barang\n bla bla bla', 'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi'))
+                                ->add(new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder(
+                                    'nama template',
+                                    new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder(
+                                        "Jadi pre-Order ?",
+                                        [
+                                            new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder('Ya', 'http://rajabrawijaya.ub.ac.id/'),
+                                            new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('Tidak', 'gak jadi hehe'),
+                                        ]
+                                    )
+                                ));
+                            $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                         }
 
                         // if (strtolower($event['message']['text']) == 'tampiltika') // tampilkan gambar
@@ -151,7 +164,6 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         if (strtolower( substr($event['message']['text'], 0, 6) ) == 'tampil') // tampilkan gambar
                         {
                             $split = str_split($event['message']['text'], 7);
-                            // $imageMessage = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/". $split[1] .".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg");
                             $multipleMessageBuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
                             $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"))
                                                    ->add(new TextMessageBuilder('Deskripsi Barang\n bla bla bla', 'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi'))
