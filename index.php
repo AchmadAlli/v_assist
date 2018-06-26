@@ -119,15 +119,14 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                         }
 
-                        if (strtolower($event['message']['text']) == 'groupId') // tampilkan groupId
+                        if (strtolower($event['message']['text']) == 'groupid') // tampilkan groupId
                         {
                             $result = $bot->replyText($event['replyToken'], $event['source']['groupId']);
                         }
 
-                        if (strtolower($event['message']['text']) == 'tagme')
+                        if (strtolower($event['message']['text']) == 'myuserid')
                         {
-                            $profile = $bot->getRoomMemberProfile($event['source']['groupId'], $userId);
-                            $result = $bot->replyText($event['replyToken'], '@'.$profile['displayName']);
+                            $result = $bot->replyText($event['replyToken'], $userId);
                         }
                     }
                 } else { // jika pc
