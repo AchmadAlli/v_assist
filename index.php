@@ -164,6 +164,18 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                                                     ));
                             $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                         }
+
+                        if (strtolower($event['message']['text']) == 'confirm') {
+                            $confirmTemplateBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder(
+                                "apakah gw ganteng?",
+                                [
+                                    new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('Ya', "/ya"),
+                                    new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('Tidak', '/tidak'),
+                                ]
+                            );
+                            $templateMessage = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('nama template', $confirmTemplateBuilder);
+                            $result = $bot->replyMessage($event['replyToken'], $templateMessage);
+                        }
                     }
                 }
             }
