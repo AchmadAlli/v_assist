@@ -164,12 +164,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             ];
                             $multipleMessageBuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
                             $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"))
-                                                   ->add(new TextMessageBuilder($deskripsiBarang))
-                                                   ->add(new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder(
-                                                       "Mau pre order",
-                                                       new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('YA', "/ya"),
-                                                       new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder('TIDAK', 'tidak')
-                                                   ));
+                                                   ->add(new TextMessageBuilder($deskripsiBarang));
                             $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                         }
                     }
