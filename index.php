@@ -119,8 +119,8 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                         }
                         
-                        if (strtolower($event['message']['text']) == 'tagme') {
-                            $result = $bot->replyText($event['replyToken'], "@". $getprofile->displayName);
+                        if (strtolower($event['message']['text']) == 'groupid') {
+                            $result = $bot->replyText($event['replyToken'], $event['source']['groupId']);
                         }
                     }
                 } else { // jika pc
