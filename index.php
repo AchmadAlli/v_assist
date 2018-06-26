@@ -87,17 +87,11 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         if (strtolower($event['message']['text']) == 'listbarang') // carousel market place
                         {
                             $carouselTemplateBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder([
-                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil')
+                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang1')
                                 ]),
-                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil')
-                                ]),
-                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil')
-                                ]),
-                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/gantungan.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil')
+                                new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Sticker", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang2')
                                 ]),
                             ]);
                             $templateMessage = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
@@ -109,7 +103,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $split = str_split($event['message']['text'], 7);
                             $multipleMessageBuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
                             $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"))
-                                ->add(new TextMessageBuilder('Deskripsi Barang\n bla bla bla', 'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi'))
+                                ->add(new TextMessageBuilder("Deskripsi Barang\n bla bla bla", 'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi'))
                                 ->add(new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder(
                                     'nama template',
                                     new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder(
@@ -166,7 +160,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $split = str_split($event['message']['text'], 7);
                             $multipleMessageBuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
                             $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg"))
-                                                   ->add(new TextMessageBuilder('Deskripsi Barang\n bla bla bla', 'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi'))
+                                                   ->add(new TextMessageBuilder("Deskripsi Barang\n bla bla bla", 'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi'))
                                                    ->add(new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder('nama template', 
                                                         new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder(
                                                             "Jadi pre-Order ?",
