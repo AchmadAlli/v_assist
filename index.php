@@ -90,10 +90,12 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         {
                             $carouselTemplateBuilder = new CarouselTemplateBuilder([
                                 new CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang1')
+                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang1'),
+                                    new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
                                 ]),
                                 new CarouselColumnTemplateBuilder("Sticker", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang2')
+                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang2'),
+                                    new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
                                 ]),
                             ]);
                             $templateMessage = new TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
@@ -105,17 +107,10 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $split = str_split($event['message']['text'], 7);
                             $multipleMessageBuilder = new MultiMessageBuilder;
                             $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
-                                ->add(new TextMessageBuilder("Deskripsi Barang \nbla bla bla", 'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi')) // deskripsi product
-                                ->add(new TemplateMessageBuilder(
-                                    'Confirmation pre-Order',
-                                    new ConfirmTemplateBuilder( // confirmation pre-Order
-                                        "Jadi pre-Order",
-                                        [
-                                            new UriTemplateActionBuilder('Ya', 'http://rajabrawijaya.ub.ac.id/'),
-                                            new MessageTemplateActionBuilder('Tidak', 'gak jadi hehe'),
-                                        ]
-                                    )
-                                ));
+                                    ->add(new TextMessageBuilder( // deskripsi product
+                                        "Deskripsi Barang \nbla bla bla", 
+                                        'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi'
+                                    ));
                             $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                         }
                     }
@@ -138,10 +133,12 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         {
                             $carouselTemplateBuilder = new CarouselTemplateBuilder([
                                 new CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang1')
+                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang1'),
+                                    new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
                                 ]),
                                 new CarouselColumnTemplateBuilder("Sticker", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang2')
+                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang2'),
+                                    new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
                                 ]),
                             ]);
                             $templateMessage = new TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
@@ -153,16 +150,9 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             $split = str_split($event['message']['text'], 7);
                             $multipleMessageBuilder = new MultiMessageBuilder;
                             $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
-                                ->add(new TextMessageBuilder("Deskripsi Barang \nbla bla bla", 'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi')) // deskripsi product
-                                ->add(new TemplateMessageBuilder(
-                                    'Confirmation pre-Order',
-                                    new ConfirmTemplateBuilder( // confirmation pre-Order
-                                        "Jadi pre-Order",
-                                        [
-                                            new UriTemplateActionBuilder('Ya', 'http://rajabrawijaya.ub.ac.id/'),
-                                            new MessageTemplateActionBuilder('Tidak', 'gak jadi hehe'),
-                                        ]
-                                    )
+                                ->add(new TextMessageBuilder( // deskripsi product
+                                    "Deskripsi Barang \nbla bla bla", 
+                                    'fitur ini hanya untuk melihat saja, untuk pre-order tekan iya untuk langsung di arahkan ke website resmi'
                                 ));
                             $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                         }
