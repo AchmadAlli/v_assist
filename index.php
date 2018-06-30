@@ -68,27 +68,29 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                 $userId = $event['source']['userId'];
                 $getprofile = $bot->getProfile($userId);
                 $profile = $getprofile->getJSONDecodedBody();
-                $key = substr(strtolower($event['message']['text']), 0, 6);
+                $textMessage = $event['message']['text'];
+                $arraytextMessage = explode( ' ', strtolower($textMessage) );
 
-                if (strtolower(substr($event['message']['text'], 0, 6)) == 'apakah') // kerang ajaib
+                if (strtolower(substr($textMessage, 0, 6)) == 'apakah') // kerang ajaib
                 {
                     $replyMessage = (rand(0, 1)) ? "iya" : "tidak";
                     $result = $bot->replyText($event['replyToken'], $replyMessage);
                 }
 
+                if (strtolower($textMessage) == 'hai') // perkenalan
+                {
+                    $replyMessage = "Hai namaku adalah VISI, aku adalah virtual assisten kamu (love)";
+                    $result = $bot->replyText($event['replyToken'], $replyMessage);
+                }
+
                 if ($key == "tolong") {
-                    $marketPlace = "market place";
+                    $marketPlace = ["toko", "market place", "market", "merchandise", "merchand", "lapak", "shop"];
                     // jika group
                     if ($event['source']['type'] == 'group' or $event['source']['type'] == 'room') {
                     // bla bla bla
                         if ($event['message']['type'] == 'text') {
-                            if (strtolower($event['message']['text']) == 'hai') // perkenalan
-                            {
-                                $replyMessage = "Hai namaku adalah VISI, aku adalah virtual assisten kamu (love)";
-                                $result = $bot->replyText($event['replyToken'], $replyMessage);
-                            }
 
-                            if (strtolower($event['message']['text']) == 'listbarang') // carousel market place
+                            if (strtolower($textMessage) == 'listbarang') // carousel market place
                             {
                                 $carouselTemplateBuilder = new CarouselTemplateBuilder([
                                     new CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
@@ -104,9 +106,9 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                                 $result = $bot->replyMessage($event['replyToken'], $templateMessage);
                             }
 
-                            if (strtolower(substr($event['message']['text'], 0, 6)) == 'tampil') // tampilkan detail product
+                            if (strtolower(substr($textMessage, 0, 6)) == 'tampil') // tampilkan detail product
                             {
-                                $split = str_split($event['message']['text'], 7);
+                                $split = str_split($textMessage, 7);
                                 $multipleMessageBuilder = new MultiMessageBuilder;
                                 $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
                                     ->add(new TextMessageBuilder( // deskripsi product
@@ -119,7 +121,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     // bla bla bla
                         if ($event['message']['type'] == 'text') {
 
-                            if (strpos(strtolower($event['message']['text']), "market place") !== FALSE) // carousel market place
+                            if (checkKeyMessage($arraytextMessage, $marketPlace)) // carousel market place
                             {
                                 $carouselTemplateBuilder = new CarouselTemplateBuilder([
                                     new CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
@@ -135,9 +137,9 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                                 $result = $bot->replyMessage($event['replyToken'], $templateMessage);
                             }
 
-                            if (strtolower(substr($event['message']['text'], 0, 6)) == 'tampil') // tampilkan detail product
+                            if (strtolower(substr($textMessage, 0, 6)) == 'tampil') // tampilkan detail product
                             {
-                                $split = str_split($event['message']['text'], 7);
+                                $split = str_split($textMessage, 7);
                                 $multipleMessageBuilder = new MultiMessageBuilder;
                                 $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
                                     ->add(new TextMessageBuilder( // deskripsi product
@@ -153,3 +155,13 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
     }
 });
 $app->run();
+
+function checkKeyMessage($arr1, $arr2) // check elements of arrays
+{
+    foreach ($arr1 as $key) {
+        if (in_array($key, $arr2)) {
+            return true;
+        }
+    }
+    return false;
+}
