@@ -140,10 +140,6 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                                         new MessageTemplateActionBuilder('Detail', 'detail-barang5'),
                                         new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
                                     ]),
-                                    new CarouselColumnTemplateBuilder("Sticker UB lagi", "Rp 1.000,-", "https://arizalmhmd5.000webhostapp.com/barang6.jpg", [
-                                        new MessageTemplateActionBuilder('Detail', 'detail-barang6'),
-                                        new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
-                                    ]),
                                 ]);
                                 $templateMessage = new TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
                                 $result = $bot->replyMessage($event['replyToken'], $templateMessage);
