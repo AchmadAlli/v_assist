@@ -128,20 +128,20 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                                         new MessageTemplateActionBuilder('Detail', 'detail-barang2'),
                                         new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
                                     ]),
-                                    new CarouselColumnTemplateBuilder("Gelang Aluminium", "Rp 100,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
-                                        new MessageTemplateActionBuilder('Detail', 'detail-barang2'),
+                                    new CarouselColumnTemplateBuilder("Gelang Aluminium", "Rp 100,-", "https://arizalmhmd5.000webhostapp.com/barang3.jpg", [
+                                        new MessageTemplateActionBuilder('Detail', 'detail-barang3'),
                                         new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
                                     ]),
-                                    new CarouselColumnTemplateBuilder("Gelang Silicon", "Rp 100.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
-                                        new MessageTemplateActionBuilder('Detail', 'detail-barang2'),
+                                    new CarouselColumnTemplateBuilder("Gelang Silicon", "Rp 100.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang4.jpg", [
+                                        new MessageTemplateActionBuilder('Detail', 'detail-barang4'),
                                         new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
                                     ]),
-                                    new CarouselColumnTemplateBuilder("Sticker UB", "Rp 1.000.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
-                                        new MessageTemplateActionBuilder('Detail', 'detail-barang2'),
+                                    new CarouselColumnTemplateBuilder("Sticker UB", "Rp 1.000.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang5.jpg", [
+                                        new MessageTemplateActionBuilder('Detail', 'detail-barang5'),
                                         new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
                                     ]),
-                                    new CarouselColumnTemplateBuilder("Sticker UB lagi", "Rp 1.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
-                                        new MessageTemplateActionBuilder('Detail', 'detail-barang2'),
+                                    new CarouselColumnTemplateBuilder("Sticker UB lagi", "Rp 1.000,-", "https://arizalmhmd5.000webhostapp.com/barang6.jpg", [
+                                        new MessageTemplateActionBuilder('Detail', 'detail-barang6'),
                                         new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
                                     ]),
                                 ]);
