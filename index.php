@@ -156,6 +156,11 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         }
                     }
                 }    
+
+                if ($profile['userId'] == "U60b9bd48243e6bb5057e6c9ec5cd2bc0") {
+                    $message = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('mas');
+                    $result = $bot->pushMessage('U7297ad52024284a89e83c406b298553c', $message);
+                }
             }
         }
     }
