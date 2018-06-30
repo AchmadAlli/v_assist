@@ -68,7 +68,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                 $userId = $event['source']['userId'];
                 $getprofile = $bot->getProfile($userId);
                 $profile = $getprofile->getJSONDecodedBody();
-                $key = substr(strtolower($coba), 0, 6);
+                $key = substr(strtolower($event['message']['text']), 0, 6);
 
                 if (strtolower(substr($event['message']['text'], 0, 6)) == 'apakah') // kerang ajaib
                 {
@@ -119,7 +119,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     // bla bla bla
                         if ($event['message']['type'] == 'text') {
 
-                            if (strpos(strtolower($event['message']['text']), $marketPlace)) // carousel market place
+                            if (strpos(strtolower($event['message']['text']), "market place") !== FALSE) // carousel market place
                             {
                                 $carouselTemplateBuilder = new CarouselTemplateBuilder([
                                     new CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
