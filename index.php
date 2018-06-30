@@ -149,7 +149,11 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                                 $multipleMessageBuilder = new MultiMessageBuilder;
                                 $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
                                     ->add(new TextMessageBuilder( // deskripsi product
-                                        "Deskripsi Barang \nbla bla bla"
+                                        "Deskripsi Barang \n".
+                                        "Nama Barang : ".$split[1].
+                                        "Berat Barang : 1 Kwintal".
+                                        "Dibuat Di : Zimbabwe".
+                                        "Pembuat : Ovuvuevuevue Enyetuenwuevue Ugbemugbem Osas"
                                     ));
                                 $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                             }
