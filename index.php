@@ -89,7 +89,8 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     $result = $bot->replyText($event['replyToken'], $datanya['userId']);
                 }
 
-                if (strtolower( substr($textMessage, 0, 6) ) == "tolong") {
+                if ( (strtolower( substr($textMessage, 0, 6) ) == "tolong") || (strtolower(substr($textMessage, 0, 6)) == "tlg") || strtolower(substr($textMessage, 0, 6)) == "tlong" || strtolower(substr($textMessage, 0, 6)) == "tlng" ) 
+                {
                     $marketPlace = ["toko", "market place", "market", "merchandise", "merchand", "lapak", "shop"];
                     // jika group
                     if ($event['source']['type'] == 'group' or $event['source']['type'] == 'room') {
@@ -111,17 +112,6 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                                 $templateMessage = new TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
                                 $result = $bot->replyMessage($event['replyToken'], $templateMessage);
                             }
-
-                            if (strtolower(substr($textMessage, 0, 6)) == 'tampil') // tampilkan detail product
-                            {
-                                $split = str_split($textMessage, 7);
-                                $multipleMessageBuilder = new MultiMessageBuilder;
-                                $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
-                                    ->add(new TextMessageBuilder( // deskripsi product
-                                        "Deskripsi Barang \nbla bla bla"
-                                    ));
-                                $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
-                            }
                         }
                     } else { // jika pc
                     // bla bla bla
@@ -131,34 +121,34 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             {
                                 $carouselTemplateBuilder = new CarouselTemplateBuilder([
                                     new CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
-                                        new MessageTemplateActionBuilder('Detail', 'tampil-barang1'),
+                                        new MessageTemplateActionBuilder('Detail', 'detail-barang1'),
                                         new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
                                     ]),
                                     new CarouselColumnTemplateBuilder("Sticker", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
-                                        new MessageTemplateActionBuilder('Detail', 'tampil-barang2'),
+                                        new MessageTemplateActionBuilder('Detail', 'detail-barang2'),
                                         new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
                                     ]),
                                 ]);
                                 $templateMessage = new TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
                                 $result = $bot->replyMessage($event['replyToken'], $templateMessage);
                             }
-
-                            if (strtolower(substr($textMessage, 0, 6)) == 'tampil') // tampilkan detail product
-                            {
-                                $split = str_split($textMessage, 7);
-                                $multipleMessageBuilder = new MultiMessageBuilder;
-                                $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
-                                    ->add(new TextMessageBuilder( // deskripsi product
-                                        "Deskripsi Barang \n".
-                                        "Nama Barang : ".$split[1].
-                                        "Berat Barang : 1 Kwintal".
-                                        "Dibuat Di : Zimbabwe".
-                                        "Pembuat : Ovuvuevuevue Enyetuenwuevue Ugbemugbem Osas"
-                                    ));
-                                $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
-                            }
                         }
                     }
+                }
+
+                if (strtolower(substr($textMessage, 0, 6)) == 'detail') // tampilkan detail product
+                {
+                    $split = str_split($textMessage, 7);
+                    $multipleMessageBuilder = new MultiMessageBuilder;
+                    $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
+                        ->add(new TextMessageBuilder( // deskripsi product
+                            "Deskripsi Barang \n" .
+                                "Nama Barang : " . $split[1] .
+                                "Berat Barang : 1 Kwintal" .
+                                "Dibuat Di : Zimbabwe" .
+                                "Pembuat : Ovuvuevuevue Enyetuenwuevue Ugbemugbem Osas"
+                        ));
+                    $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                 }
             }
         }
