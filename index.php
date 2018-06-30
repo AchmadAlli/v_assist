@@ -68,94 +68,86 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                 $userId = $event['source']['userId'];
                 $getprofile = $bot->getProfile($userId);
                 $profile = $getprofile->getJSONDecodedBody();
+                $key = substr(strtolower($coba), 0, 6);
 
-                // jika group
-                if ($event['source']['type'] == 'group' or $event['source']['type'] == 'room') 
+                if (strtolower(substr($event['message']['text'], 0, 6)) == 'apakah') // kerang ajaib
                 {
+                    $replyMessage = (rand(0, 1)) ? "iya" : "tidak";
+                    $result = $bot->replyText($event['replyToken'], $replyMessage);
+                }
+
+                if ($key == "tolong") {
+                    $marketPlace = "market place";
+                    // jika group
+                    if ($event['source']['type'] == 'group' or $event['source']['type'] == 'room') {
                     // bla bla bla
-                    if ($event['message']['type'] == 'text') {
-                        if (strtolower($event['message']['text']) == 'hai') // perkenalan
-                        {
-                            $replyMessage = "Hai namaku adalah VISI, aku adalah virtual assisten kamu (love)";
-                            $result = $bot->replyText($event['replyToken'], $replyMessage);
-                        }
+                        if ($event['message']['type'] == 'text') {
+                            if (strtolower($event['message']['text']) == 'hai') // perkenalan
+                            {
+                                $replyMessage = "Hai namaku adalah VISI, aku adalah virtual assisten kamu (love)";
+                                $result = $bot->replyText($event['replyToken'], $replyMessage);
+                            }
 
-                        if (strtolower(substr($event['message']['text'], 0, 6)) == 'apakah') // kerang ajaib
-                        {
-                            $replyMessage = (rand(0, 1)) ? "iya" : "tidak";
-                            $result = $bot->replyText($event['replyToken'], $replyMessage);
-                        }
+                            if (strtolower($event['message']['text']) == 'listbarang') // carousel market place
+                            {
+                                $carouselTemplateBuilder = new CarouselTemplateBuilder([
+                                    new CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
+                                        new MessageTemplateActionBuilder('Detail', 'tampil-barang1'),
+                                        new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
+                                    ]),
+                                    new CarouselColumnTemplateBuilder("Sticker", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
+                                        new MessageTemplateActionBuilder('Detail', 'tampil-barang2'),
+                                        new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
+                                    ]),
+                                ]);
+                                $templateMessage = new TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
+                                $result = $bot->replyMessage($event['replyToken'], $templateMessage);
+                            }
 
-                        if (strtolower($event['message']['text']) == 'listbarang') // carousel market place
-                        {
-                            $carouselTemplateBuilder = new CarouselTemplateBuilder([
-                                new CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang1'),
-                                    new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
-                                ]),
-                                new CarouselColumnTemplateBuilder("Sticker", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang2'),
-                                    new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
-                                ]),
-                            ]);
-                            $templateMessage = new TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
-                            $result = $bot->replyMessage($event['replyToken'], $templateMessage);
-                        }
-
-                        if (strtolower(substr($event['message']['text'], 0, 6)) == 'tampil') // tampilkan detail product
-                        {
-                            $split = str_split($event['message']['text'], 7);
-                            $multipleMessageBuilder = new MultiMessageBuilder;
-                            $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
+                            if (strtolower(substr($event['message']['text'], 0, 6)) == 'tampil') // tampilkan detail product
+                            {
+                                $split = str_split($event['message']['text'], 7);
+                                $multipleMessageBuilder = new MultiMessageBuilder;
+                                $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
                                     ->add(new TextMessageBuilder( // deskripsi product
                                         "Deskripsi Barang \nbla bla bla"
                                     ));
-                            $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
+                                $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
+                            }
                         }
-                    }
-                } else { // jika pc
+                    } else { // jika pc
                     // bla bla bla
-                    if ($event['message']['type'] == 'text') {
-                        if (strtolower($event['message']['text']) == 'hai') // perkenalan
-                        {
-                            $replyMessage = "Hai namaku adalah VISI, aku adalah virtual assisten kamu (love)";
-                            $result = $bot->replyText($event['replyToken'], $replyMessage);
-                        }
+                        if ($event['message']['type'] == 'text') {
 
-                        if (strtolower(substr($event['message']['text'], 0, 6)) == 'apakah') // kerang ajaib
-                        {
-                            $replyMessage = (rand(0, 1)) ? "iya" : "tidak";
-                            $result = $bot->replyText($event['replyToken'], $replyMessage);
-                        }
+                            if (strpos(strtolower($event['message']['text']), $marketPlace)) // carousel market place
+                            {
+                                $carouselTemplateBuilder = new CarouselTemplateBuilder([
+                                    new CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
+                                        new MessageTemplateActionBuilder('Detail', 'tampil-barang1'),
+                                        new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
+                                    ]),
+                                    new CarouselColumnTemplateBuilder("Sticker", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
+                                        new MessageTemplateActionBuilder('Detail', 'tampil-barang2'),
+                                        new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
+                                    ]),
+                                ]);
+                                $templateMessage = new TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
+                                $result = $bot->replyMessage($event['replyToken'], $templateMessage);
+                            }
 
-                        if (strtolower($event['message']['text']) == 'listbarang') // carousel market place
-                        {
-                            $carouselTemplateBuilder = new CarouselTemplateBuilder([
-                                new CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang1'),
-                                    new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
-                                ]),
-                                new CarouselColumnTemplateBuilder("Sticker", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
-                                    new MessageTemplateActionBuilder('Detail', 'tampil-barang2'),
-                                    new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
-                                ]),
-                            ]);
-                            $templateMessage = new TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
-                            $result = $bot->replyMessage($event['replyToken'], $templateMessage);
-                        }
-
-                        if (strtolower(substr($event['message']['text'], 0, 6)) == 'tampil') // tampilkan detail product
-                        {
-                            $split = str_split($event['message']['text'], 7);
-                            $multipleMessageBuilder = new MultiMessageBuilder;
-                            $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
-                                ->add(new TextMessageBuilder( // deskripsi product
-                                    "Deskripsi Barang \nbla bla bla"
-                                ));
-                            $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
+                            if (strtolower(substr($event['message']['text'], 0, 6)) == 'tampil') // tampilkan detail product
+                            {
+                                $split = str_split($event['message']['text'], 7);
+                                $multipleMessageBuilder = new MultiMessageBuilder;
+                                $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
+                                    ->add(new TextMessageBuilder( // deskripsi product
+                                        "Deskripsi Barang \nbla bla bla"
+                                    ));
+                                $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
+                            }
                         }
                     }
-                }
+                }    
             }
         }
     }
