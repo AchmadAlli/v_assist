@@ -86,7 +86,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                 if (strtolower($textMessage) == 'userid')
                 {
                     $datanya = $getprofile->getJSONDecodedBody();
-                    $result = $bot->replyText($event['replyToken'], $datanya['displayName']);
+                    $result = $bot->replyText($event['replyToken'], $datanya['userId']);
                 }
 
                 if (strtolower( substr($textMessage, 0, 6) ) == "tolong") {
