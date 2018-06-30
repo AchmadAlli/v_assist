@@ -83,7 +83,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     $result = $bot->replyText($event['replyToken'], $replyMessage);
                 }
 
-                if ($key == "tolong") {
+                if (strtolower( substr($textMessage, 0, 6) ) == "tolong") {
                     $marketPlace = ["toko", "market place", "market", "merchandise", "merchand", "lapak", "shop"];
                     // jika group
                     if ($event['source']['type'] == 'group' or $event['source']['type'] == 'room') {
