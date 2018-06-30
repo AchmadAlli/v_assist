@@ -83,6 +83,12 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     $result = $bot->replyText($event['replyToken'], $replyMessage);
                 }
 
+                if (strtolower($textMessage) == 'userid')
+                {
+                    $datanya = $getprofile->getJSONDecodedBody();
+                    $result = $bot->replyText($event['replyToken'], $datanya['displayName']);
+                }
+
                 if (strtolower( substr($textMessage, 0, 6) ) == "tolong") {
                     $marketPlace = ["toko", "market place", "market", "merchandise", "merchand", "lapak", "shop"];
                     // jika group
