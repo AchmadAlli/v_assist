@@ -168,16 +168,17 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                 if (strtolower(substr($textMessage, 0, 6)) == 'detail') // tampilkan detail product
                 {
                     $split = explode($textMessage, '-');
-                    $multipleMessageBuilder = new MultiMessageBuilder;
-                    $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
-                        ->add(new TextMessageBuilder( // deskripsi product
-                            "Deskripsi Barang \n" .
-                                "Nama Barang : " . $split[1] ."\n".
-                                "Berat Barang : 1 Kwintal\n" .
-                                "Dibuat Di : Zimbabwe\n" .
-                                "Pembuat : Ovuvuevuevue Enyetuenwuevue Ugbemugbem Osas"
-                        ));
-                    $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
+                    // $multipleMessageBuilder = new MultiMessageBuilder;
+                    // $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
+                    //     ->add(new TextMessageBuilder( // deskripsi product
+                    //         "Deskripsi Barang \n" .
+                    //             "Nama Barang : " . $split[1] ."\n".
+                    //             "Berat Barang : 1 Kwintal\n" .
+                    //             "Dibuat Di : Zimbabwe\n" .
+                    //             "Pembuat : Ovuvuevuevue Enyetuenwuevue Ugbemugbem Osas"
+                    //     ));
+                    // $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
+                    $result = $bot->replyText($event['replyToken'], $split[1]);
                 }
 
                 if (strtolower(substr($textMessage, 0)) == "getnilai")
