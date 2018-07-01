@@ -101,11 +101,11 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                             {
                                 $carouselTemplateBuilder = new CarouselTemplateBuilder([
                                     new CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
-                                        new MessageTemplateActionBuilder('Detail', 'tampil-barang1'),
+                                        new MessageTemplateActionBuilder('Detail', 'detail-barang1'),
                                         new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
                                     ]),
                                     new CarouselColumnTemplateBuilder("Sticker", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
-                                        new MessageTemplateActionBuilder('Detail', 'tampil-barang2'),
+                                        new MessageTemplateActionBuilder('Detail', 'detail-barang2'),
                                         new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
                                     ]),
                                 ]);
@@ -150,7 +150,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
 
                 if (strtolower(substr($textMessage, 0, 6)) == 'detail') // tampilkan detail product
                 {
-                    $split = str_split($textMessage, 7);
+                    $split = explode($textMessage, '-');
                     $multipleMessageBuilder = new MultiMessageBuilder;
                     $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $split[1] . ".jpg")) // tampilkan gambar product
                         ->add(new TextMessageBuilder( // deskripsi product
