@@ -180,7 +180,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                 }
 
-                if (strtolower(substr($textMessage, 0)) == "getnilai")
+                if (strtolower(substr($textMessage, 0, 8)) == "getnilai")
                 {
                     $nim = substr($textMessage, 9, 15);
                     $password = substr($textMessage, 25);
