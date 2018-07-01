@@ -192,7 +192,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         "Penugasan 1 : 80 \n" .
                         "Penugasan Upload : 70 \n" .
                         "Kehadiran Seluruh rangkaian : 90%"
-                    ))->add(new TextMessageBuilder("TOLONG SEGERA DI UNSEND INFORMASI NIM DAN PASSWORD ANDA"));
+                    ))->add(new TextMessageBuilder("TOLONG SEGERA DI HAPUS INFORMASI NIM DAN PASSWORD ANDA. TAP DAN TAHAN PESAN ANDA LALU PILIH HAPUS"));
                     $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                 }
             }
