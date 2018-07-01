@@ -16,6 +16,7 @@ use \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder;
 use \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder;
 use \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder;
 use \LINE\LINEBot\SignatureValidator as SignatureValidator;
+use LINE\LINEBot\Event\MessageEvent\TextMessage;
 
 // set false for production
 $pass_signature = true;
@@ -91,7 +92,10 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
 
                 if ( (strtolower( substr($textMessage, 0, 6) ) == "tolong") || (strtolower(substr($textMessage, 0, 6)) == "tlg") || strtolower(substr($textMessage, 0, 6)) == "tlong" || strtolower(substr($textMessage, 0, 6)) == "tlng" ) 
                 {
+                    // keywords
                     $marketPlace = ["toko", "market place", "market", "merchandise", "merchand", "lapak", "shop"];
+                    $nilai = ["nilai", "penilaian", "skor", "poin", "point", "grade"];
+
                     // jika group
                     if ($event['source']['type'] == 'group' or $event['source']['type'] == 'room') {
                     // bla bla bla
@@ -143,6 +147,19 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                                 ]);
                                 $templateMessage = new TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
                                 $result = $bot->replyMessage($event['replyToken'], $templateMessage);
+                            }
+
+                            if (checkKeyMessage($arraytextMessage, $nilai)) // menampilkan nilai
+                            {
+                                $multipleMessageBuilder = new MultiMessageBuilder;
+                                $multipleMessageBuilder->add( new TextMessageBuilder(
+                                    "Deskripsi nilai <nama-maba> \n".
+                                    "Penugasan Online : 90 \n".
+                                    "Penugasan 1 : 80 \n".
+                                    "Penugasan Upload : 70 \n".
+                                    "Kehadiran Seluruh rangkaian : 90%"
+                                ));
+                                $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                             }
                         }
                     }
