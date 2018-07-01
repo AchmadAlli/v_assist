@@ -179,6 +179,22 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         ));
                     $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                 }
+
+                if (strtolower(substr($textMessage, 0)) == "getnilai")
+                {
+                    $nim = substr($textMessage, 9, 15);
+                    $password = substr($textMessage, 25);
+
+                    $multipleMessageBuilder = new MultiMessageBuilder;
+                    $multipleMessageBuilder->add(new TextMessageBuilder(
+                        "Deskripsi nilai $nim \n" .
+                        "Penugasan Online : 90 \n" .
+                        "Penugasan 1 : 80 \n" .
+                        "Penugasan Upload : 70 \n" .
+                        "Kehadiran Seluruh rangkaian : 90%"
+                    ))->add(new TextMessageBuilder("TOLONG SEGERA DI UNSEND INFORMASI NIM DAN PASSWORD ANDA"));
+                    $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
+                }
             }
         }
     }
