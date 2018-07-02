@@ -161,7 +161,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                                     "Penugasan Upload : 70 \n".
                                     "Kehadiran Seluruh rangkaian : 90%"
                                 ));
-                                $result = $bot->replyText($event['replyToken'], $data['status']);
+                                $result = $bot->replyText($event['replyToken'], $datanya['status']);
                             }
                         }
                     }
