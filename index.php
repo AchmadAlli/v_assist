@@ -151,6 +151,9 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
 
                             if (checkKeyMessage($arraytextMessage, $nilai)) // menampilkan nilai
                             {
+                                $api = json_decode("http://arizalmhmd5.000webhostapp.com/API.php?user_id=U7297ad52024284a89e83c406b298553c", TRUE);
+                                $status = $api['status'];
+                                $replyMessage = new TextMessageBuilder($status);
                                 $multipleMessageBuilder = new MultiMessageBuilder;
                                 $multipleMessageBuilder->add( new TextMessageBuilder(
                                     "Deskripsi nilai <nama-maba> \n".
@@ -159,7 +162,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                                     "Penugasan Upload : 70 \n".
                                     "Kehadiran Seluruh rangkaian : 90%"
                                 ));
-                                $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
+                                $result = $bot->replyMessage($event['replyToken'], $replyMessage);
                             }
                         }
                     }
