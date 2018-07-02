@@ -203,17 +203,16 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         // $store = file_get_contents(getenv('apisiam')."165150701111005");
                         // $dataMhs = json_decode($store, TRUE);
                         $replyMessage = new TextMessageBuilder(
-                            // "Nilai ".$dataMhs['nama']."\n".
-                            // "Penugasan Online : 90 \n" .
-                            // "Penugasan 1 : 80 \n" .
-                            // "Penugasan Upload : 70 \n" .
-                            // "Kehadiran Seluruh rangkaian : 90%"
-                            getenv('apisiam')
+                            "Nilai ".$dataMhs['nama']."\n".
+                            "Penugasan Online : 90 \n" .
+                            "Penugasan 1 : 80 \n" .
+                            "Penugasan Upload : 70 \n" .
+                            "Kehadiran Seluruh rangkaian : 90%"
                         );
                     }else {
                         $replyMessage = new TextMessageBuilder("user belum terdaftar");
                     }
-                    $result = $bot->replyText($event['replyToken'], $data['status']);
+                    $result = $bot->replyText($event['replyToken'], $replyMessage);
                 }
             }
         }
