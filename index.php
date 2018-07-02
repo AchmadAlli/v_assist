@@ -197,7 +197,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     // ))->add(new TextMessageBuilder("TOLONG SEGERA DI HAPUS INFORMASI NIM DAN PASSWORD ANDA. TAP DAN TAHAN PESAN ANDA LALU PILIH HAPUS"));
                     // $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
 
-                    $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=U7297ad52024284a89e83c406b298553c");
+                    $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=".$profile['userID']);
                     $data = json_decode($contents, TRUE);
                     $result = $bot->replyText($event['replyToken'], $data['status']);
                 }
