@@ -184,7 +184,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
 
                 if (strtolower(substr($textMessage, 0, 8)) == "getnilai")
                 {
-                    // $nim = substr($textMessage, 9, 15);
+                    $nim = substr($textMessage, 9, 15);
                     // $password = substr($textMessage, 25);
 
                     // $multipleMessageBuilder = new MultiMessageBuilder;
@@ -199,6 +199,19 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
 
                     $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=".$profile['userID']);
                     $data = json_decode($contents, TRUE);
+                    if ($data['status']) {
+                        $store = file_get_contents(getenv('apisiam').$nim);
+                        $dataMhs = json_decode($store, TRUE);
+                        $replyMessage = new TextMessageBuilder(
+                            "Nilai ".$dataMhs['nama']."\n".
+                            "Penugasan Online : 90 \n" .
+                            "Penugasan 1 : 80 \n" .
+                            "Penugasan Upload : 70 \n" .
+                            "Kehadiran Seluruh rangkaian : 90%"
+                        );
+                    }else {
+                        $replyMessage = new TextMessageBuilder("user belum terdaftar");
+                    }
                     $result = $bot->replyText($event['replyToken'], $data['status']);
                 }
             }
