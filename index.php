@@ -200,8 +200,8 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=".$profile['userID']);
                     $data = json_decode($contents, TRUE);
                     if ($data['status']) {
-                        // $store = file_get_contents(getenv('apisiam')."165150701111005");
-                        // $dataMhs = json_decode($store, TRUE);
+                        $store = file_get_contents(getenv('apisiam')."165150701111005");
+                        $dataMhs = json_decode($store, TRUE);
                         $replyMessage = new TextMessageBuilder(
                             "Nilai ".$dataMhs['nama']."\n".
                             "Penugasan Online : 90 \n" .
@@ -212,7 +212,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     }else {
                         $replyMessage = new TextMessageBuilder("user belum terdaftar");
                     }
-                    $result = $bot->replyText($event['replyToken'], $replyMessage);
+                    $result = $bot->replyMessage($event['replyToken'], $replyMessage);
                 }
             }
         }
