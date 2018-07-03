@@ -186,7 +186,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                 {
                     $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=".$profile['userID']);
                     $data = json_decode($contents, TRUE);
-                    if ($data['status'] == 1) {
+                    if ($data['status'] == "oke") {
                         $store = file_get_contents(getenv('apisiam')."165150701111005");
                         $dataMhs = json_decode($store, TRUE);
                         $replyMessage = new TextMessageBuilder(
