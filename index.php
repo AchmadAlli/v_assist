@@ -87,7 +87,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                 if (strtolower($textMessage) == 'userid')
                 {
                     $datanya = $getprofile->getJSONDecodedBody();
-                    $result = $bot->replyText($event['replyToken'], $datanya['userId']);
+                    $result = $bot->replyText($event['replyToken'], $profile['userId']);
                 }
 
                 if ( (strtolower( substr($textMessage, 0, 6) ) == "tolong") || (strtolower(substr($textMessage, 0, 6)) == "tlg") || strtolower(substr($textMessage, 0, 6)) == "tlong" || strtolower(substr($textMessage, 0, 6)) == "tlng" ) 
@@ -184,19 +184,6 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
 
                 if (strtolower(substr($textMessage, 0, 8)) == "getnilai")
                 {
-                    // $nim = substr($textMessage, 9, 15);
-                    // $password = substr($textMessage, 25);
-
-                    // $multipleMessageBuilder = new MultiMessageBuilder;
-                    // $multipleMessageBuilder->add(new TextMessageBuilder(
-                    //     "Deskripsi nilai $nim \n" .
-                    //     "Penugasan Online : 90 \n" .
-                    //     "Penugasan 1 : 80 \n" .
-                    //     "Penugasan Upload : 70 \n" .
-                    //     "Kehadiran Seluruh rangkaian : 90%"
-                    // ))->add(new TextMessageBuilder("TOLONG SEGERA DI HAPUS INFORMASI NIM DAN PASSWORD ANDA. TAP DAN TAHAN PESAN ANDA LALU PILIH HAPUS"));
-                    // $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
-
                     $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=".$profile['userID']);
                     $data = json_decode($contents, TRUE);
                     if ($data['status'] == 1) {
