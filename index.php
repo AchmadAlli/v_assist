@@ -182,9 +182,9 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                 }
 
-                if (strtolower(substr($textMessage, 0, 8)) == "getnilai")
+                if (strtolower($textMessage) == "getnilai")
                 {
-                    $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=".$profile['userID']);
+                    $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=".$profile['userId']);
                     $data = json_decode($contents, TRUE);
                     if ($data['status'] == "oke") {
                         $store = file_get_contents(getenv('apisiam')."165150701111005");
@@ -199,8 +199,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     }else {
                         $replyMessage = new TextMessageBuilder("user belum terdaftar");
                     }
-                    // $result = $bot->replyMessage($event['replyToken'], $replyMessage);
-                    $result = $bot->replyText($event['replyToken'], $profile['userID']);
+                    $result = $bot->replyMessage($event['replyToken'], $replyMessage);
                 }
             }
         }
