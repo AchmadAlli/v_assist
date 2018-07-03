@@ -87,10 +87,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
 
                 if (checkKeyMessage($arraytextMessage, $sapaan)) // perkenalan
                 {
-                    $code = "10008E";
-                    $bin = hex2bin(str_repeat('0', 8 - strlen($code)) . $code);
-                    $emoticon = mb_convert_encoding($bin, 'UTF-8', 'UTF-32BE');
-                    $replyMessage = "Hai aku adalah Virtual Assistant kamu. Aku ditugaskan untuk mendampingimu selama RAJA BRAWIJAYA 2018 berlangsung hehe :D \n\n Semoga kamu betah sama aku ya $emoticon";
+                    $replyMessage = "Hai aku adalah Virtual Assistant kamu. Aku ditugaskan untuk mendampingimu selama RAJA BRAWIJAYA 2018 berlangsung. \n\n Semoga kamu betah sama aku ya !";
                     $result = $bot->replyText($event['replyToken'], $replyMessage);
                 }
 
