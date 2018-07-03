@@ -77,7 +77,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                 $tolong = ["tolong", "tlg", "tlong", "help", "please", "please!", "please?"];
                 $marketPlace = ["toko", "market place", "market", "merchandise", "merchand", "lapak", "shop"];
                 $nilai = ["nilai", "nilaiku", "penilaian", "skor", "poin", "point", "grade"];
-                $bio = ["bio", "biodata", "data diri"];
+                $bio = ["bio", "biodata"];
 
                 if (strtolower(substr($textMessage, 0, 6)) == 'apakah') // kerang ajaib
                 {
