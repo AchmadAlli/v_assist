@@ -72,6 +72,11 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                 $textMessage = $event['message']['text'];
                 $arraytextMessage = explode( ' ', strtolower($textMessage) );
 
+                // keywords
+                $tolong = ["tolong", "tlg", "tlong", "help", "please", "please!", "please?"];
+                $marketPlace = ["toko", "market place", "market", "merchandise", "merchand", "lapak", "shop"];
+                $nilai = ["nilai", "penilaian", "skor", "poin", "point", "grade"];
+
                 if (strtolower(substr($textMessage, 0, 6)) == 'apakah') // kerang ajaib
                 {
                     $replyMessage = (rand(0, 1)) ? "iya" : "tidak";
@@ -92,10 +97,6 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
 
                 if ( (strtolower( substr($textMessage, 0, 6) ) == "tolong") || (strtolower(substr($textMessage, 0, 6)) == "tlg") || strtolower(substr($textMessage, 0, 6)) == "tlong" || strtolower(substr($textMessage, 0, 6)) == "tlng" ) 
                 {
-                    // keywords
-                    $marketPlace = ["toko", "market place", "market", "merchandise", "merchand", "lapak", "shop"];
-                    $nilai = ["nilai", "penilaian", "skor", "poin", "point", "grade"];
-
                     // jika group
                     if ($event['source']['type'] == 'group' or $event['source']['type'] == 'room') {
                     // bla bla bla
@@ -151,17 +152,27 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
 
                             if (checkKeyMessage($arraytextMessage, $nilai)) // menampilkan nilai
                             {
-                                $store = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=U7297ad52024284a89e83c406b298553c");
-                                $datanya = json_decode($store, TRUE);
-                                $multipleMessageBuilder = new MultiMessageBuilder;
-                                $multipleMessageBuilder->add( new TextMessageBuilder(
-                                    "Deskripsi nilai <nama-maba> \n".
-                                    "Penugasan Online : 90 \n".
-                                    "Penugasan 1 : 80 \n".
-                                    "Penugasan Upload : 70 \n".
-                                    "Kehadiran Seluruh rangkaian : 90%"
-                                ));
-                                $result = $bot->replyText($event['replyToken'], $datanya['status']);
+                                $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=" . $profile['userId']);
+                                $data = json_decode($contents, true);
+                                if ($data['status'] == "oke") {
+                                    $store = file_get_contents(getenv('apisiam') . "165150701111005");
+                                    $dataMhs = json_decode($store, true);
+                                    $replyMessage = new TextMessageBuilder(
+                                        "DATA DIRI \n" .
+                                            "NIM : " . $dataMhs['nim'] . "\n" .
+                                            "Nama : " . $dataMhs['nama'] . "\n" .
+                                            "Fakultas : " . $dataMhs['fak'] . "\n" .
+                                            "Cluster : " . $dataMhs['clus'] . "\n \n" .
+                                            "NILAI  \n" .
+                                            "Penugasan Online : 90 \n" .
+                                            "Penugasan 1 : 80 \n" .
+                                            "Penugasan Upload : 70 \n" .
+                                            "Kehadiran Seluruh rangkaian : 90%"
+                                    );
+                                } else {
+                                    $replyMessage = new TextMessageBuilder("user belum terdaftar");
+                                }
+                                $result = $bot->replyMessage($event['replyToken'], $replyMessage);
                             }
                         }
                     }
