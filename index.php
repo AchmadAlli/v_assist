@@ -72,6 +72,12 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                 $textMessage = $event['message']['text'];
                 $arraytextMessage = explode( ' ', strtolower($textMessage) );
 
+                // keywords
+                $tolong = ["tolong", "tlg", "tlong", "help", "please", "please!", "please?"];
+                $marketPlace = ["toko", "market place", "market", "merchandise", "merchand", "lapak", "shop"];
+                $nilai = ["nilai", "penilaian", "skor", "poin", "point", "grade"];
+                $bio = ["bio", "biodata", "data diri"];
+
                 if (strtolower(substr($textMessage, 0, 6)) == 'apakah') // kerang ajaib
                 {
                     $replyMessage = (rand(0, 1)) ? "iya" : "tidak";
@@ -90,12 +96,8 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     $result = $bot->replyText($event['replyToken'], $profile['userId']);
                 }
 
-                if ( (strtolower( substr($textMessage, 0, 6) ) == "tolong") || (strtolower(substr($textMessage, 0, 6)) == "tlg") || strtolower(substr($textMessage, 0, 6)) == "tlong" || strtolower(substr($textMessage, 0, 6)) == "tlng" ) 
+                if (checkKeyMessage($arraytextMessage, $tolong)) 
                 {
-                    // keywords
-                    $marketPlace = ["toko", "market place", "market", "merchandise", "merchand", "lapak", "shop"];
-                    $nilai = ["nilai", "penilaian", "skor", "poin", "point", "grade"];
-
                     // jika group
                     if ($event['source']['type'] == 'group' or $event['source']['type'] == 'room') {
                     // bla bla bla
@@ -151,17 +153,50 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
 
                             if (checkKeyMessage($arraytextMessage, $nilai)) // menampilkan nilai
                             {
-                                $store = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=U7297ad52024284a89e83c406b298553c");
-                                $datanya = json_decode($store, TRUE);
-                                $multipleMessageBuilder = new MultiMessageBuilder;
-                                $multipleMessageBuilder->add( new TextMessageBuilder(
-                                    "Deskripsi nilai <nama-maba> \n".
-                                    "Penugasan Online : 90 \n".
-                                    "Penugasan 1 : 80 \n".
-                                    "Penugasan Upload : 70 \n".
-                                    "Kehadiran Seluruh rangkaian : 90%"
-                                ));
-                                $result = $bot->replyText($event['replyToken'], $datanya['status']);
+                                $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=" . $profile['userId']);
+                                $data = json_decode($contents, true);
+                                if ($data['status'] == "oke") {
+                                    $store = file_get_contents(getenv('apisiam') . "165150701111005");
+                                    $dataMhs = json_decode($store, true);
+                                    $replyMessage = new TextMessageBuilder(
+                                        "DATA DIRI \n" .
+                                        "NIM : " . $dataMhs['nim'] . "\n" .
+                                        "Nama : " . $dataMhs['nama'] . "\n" .
+                                        "Fakultas : " . $dataMhs['fak'] . "\n" .
+                                        "Cluster : " . $dataMhs['clus'] . "\n \n" .
+                                        "NILAI  \n" .
+                                        "Penugasan Online : 90 \n" .
+                                        "Penugasan 1 : 80 \n" .
+                                        "Penugasan Upload : 70 \n" .
+                                        "Kehadiran Seluruh rangkaian : 90%"
+                                    );
+                                } else {
+                                    $replyMessage = new TextMessageBuilder("user belum terdaftar");
+                                }
+                                $result = $bot->replyMessage($event['replyToken'], $replyMessage);
+                            }
+
+                            if (checkKeyMessage($arraytextMessage, $bio)) {
+                                $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=" . $profile['userId']);
+                                $data = json_decode($contents, true);
+                                if ($data['status'] == "oke") {
+                                    $store = file_get_contents(getenv('apisiam') . "165150701111005");
+                                    $dataMhs = json_decode($store, true);
+                                    $replyMessage = new TextMessageBuilder(
+                                        "DATA DIRI \n" .
+                                        "NIM : " . $dataMhs['nim'] . "\n" .
+                                        "Nama : " . $dataMhs['nama'] . "\n" .
+                                        "Tempat, Tanggal Lahir : " . $dataMhs['ttl']. "\n" .
+                                        "Agama : " . $dataMhs['agama'] . "\n" .
+                                        "Fakultas : " . $dataMhs['fak'] . "\n" .
+                                        "Program Studi : " . $dataMhs['prod'] . "\n" .
+                                        "Angkatan : " . $dataMhs['ang'] . "\n" .
+                                        "Cluster : " . $dataMhs['clus'] . ""
+                                    );
+                                } else {
+                                    $replyMessage = new TextMessageBuilder("user belum terdaftar");
+                                }
+                                $result = $bot->replyMessage($event['replyToken'], $replyMessage);
                             }
                         }
                     }
@@ -174,23 +209,28 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $product[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $product[1] . ".jpg")) // tampilkan gambar product
                         ->add(new TextMessageBuilder( // deskripsi product
                             "Deskripsi Barang \n" .
-                                "Nama Barang : " . $product[1] ."\n".
-                                "Berat Barang : 1 Kwintal\n" .
-                                "Dibuat Di : Zimbabwe\n" .
-                                "Pembuat : Ovuvuevuevue Enyetuenwuevue Ugbemugbem Osas"
+                            "Nama Barang : " . $product[1] ."\n".
+                            "Berat Barang : 1 Kwintal\n" .
+                            "Dibuat Di : Zimbabwe\n" .
+                            "Pembuat : Ovuvuevuevue Enyetuenwuevue Ugbemugbem Osas"
                         ));
                     $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                 }
 
-                if (strtolower(substr($textMessage, 0, 8)) == "getnilai")
+                if (strtolower($textMessage) == "getnilai")
                 {
-                    $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=".$profile['userID']);
+                    $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=".$profile['userId']);
                     $data = json_decode($contents, TRUE);
-                    if ($data['status'] == 1) {
+                    if ($data['status'] == "oke") {
                         $store = file_get_contents(getenv('apisiam')."165150701111005");
                         $dataMhs = json_decode($store, TRUE);
                         $replyMessage = new TextMessageBuilder(
-                            "Nilai ".$dataMhs['nama']."\n".
+                            "DATA DIRI \n".
+                            "NIM : ".$dataMhs['nim']."\n".
+                            "Nama : ".$dataMhs['nama']."\n".
+                            "Fakultas : ".$dataMhs['fak']."\n".
+                            "Cluster : ".$dataMhs['clus']."\n \n".
+                            "NILAI  \n".
                             "Penugasan Online : 90 \n" .
                             "Penugasan 1 : 80 \n" .
                             "Penugasan Upload : 70 \n" .
@@ -199,6 +239,23 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     }else {
                         $replyMessage = new TextMessageBuilder("user belum terdaftar");
                     }
+                    $result = $bot->replyMessage($event['replyToken'], $replyMessage);
+                }
+
+                if (strtolower(substr($textMessage, 0, 7)) == "getdata") {
+                    $store = file_get_contents(getenv('apisiam') . substr($textMessage, 8, 15));
+                    $dataMhs = json_decode($store, true);
+                    $replyMessage = new TextMessageBuilder(
+                        "DATA DIRI \n" .
+                        "NIM : " . $dataMhs['nim'] . "\n" .
+                        "Nama : " . $dataMhs['nama'] . "\n" .
+                        "Tempat, Tanggal Lahir : " . $dataMhs['ttl'] . "\n" .
+                        "Agama : " . $dataMhs['agama'] . "\n" .
+                        "Fakultas : " . $dataMhs['fak'] . "\n" .
+                        "Program Studi : " . $dataMhs['prod'] . "\n" .
+                        "Angkatan : " . $dataMhs['ang'] . "\n" .
+                        "Cluster : " . $dataMhs['clus'] . ""
+                    );
                     $result = $bot->replyMessage($event['replyToken'], $replyMessage);
                 }
             }
@@ -210,7 +267,7 @@ $app->run();
 function checkKeyMessage($arr1, $arr2) // check elements of arrays
 {
     foreach ($arr1 as $key) {
-        if (in_array($key, $arr2)) {
+        if (in_array(strtolower($key), $arr2)) {
             return true;
         }
     }
