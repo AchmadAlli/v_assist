@@ -199,7 +199,8 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     }else {
                         $replyMessage = new TextMessageBuilder("user belum terdaftar");
                     }
-                    $result = $bot->replyMessage($event['replyToken'], $replyMessage);
+                    // $result = $bot->replyMessage($event['replyToken'], $replyMessage);
+                    $result = $bot->replyText($event['replyToken'], $data['status']);
                 }
             }
         }
