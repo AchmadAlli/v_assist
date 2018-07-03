@@ -76,6 +76,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                 $tolong = ["tolong", "tlg", "tlong", "help", "please", "please!", "please?"];
                 $marketPlace = ["toko", "market place", "market", "merchandise", "merchand", "lapak", "shop"];
                 $nilai = ["nilai", "penilaian", "skor", "poin", "point", "grade"];
+                $bio = ["bio", "biodata", "data diri"];
 
                 if (strtolower(substr($textMessage, 0, 6)) == 'apakah') // kerang ajaib
                 {
@@ -95,7 +96,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     $result = $bot->replyText($event['replyToken'], $profile['userId']);
                 }
 
-                if ( (strtolower( substr($textMessage, 0, 6) ) == "tolong") || (strtolower(substr($textMessage, 0, 6)) == "tlg") || strtolower(substr($textMessage, 0, 6)) == "tlong" || strtolower(substr($textMessage, 0, 6)) == "tlng" ) 
+                if (checkKeyMessage($arraytextMessage, $tolong)) 
                 {
                     // jika group
                     if ($event['source']['type'] == 'group' or $event['source']['type'] == 'room') {
@@ -159,15 +160,38 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                                     $dataMhs = json_decode($store, true);
                                     $replyMessage = new TextMessageBuilder(
                                         "DATA DIRI \n" .
-                                            "NIM : " . $dataMhs['nim'] . "\n" .
-                                            "Nama : " . $dataMhs['nama'] . "\n" .
-                                            "Fakultas : " . $dataMhs['fak'] . "\n" .
-                                            "Cluster : " . $dataMhs['clus'] . "\n \n" .
-                                            "NILAI  \n" .
-                                            "Penugasan Online : 90 \n" .
-                                            "Penugasan 1 : 80 \n" .
-                                            "Penugasan Upload : 70 \n" .
-                                            "Kehadiran Seluruh rangkaian : 90%"
+                                        "NIM : " . $dataMhs['nim'] . "\n" .
+                                        "Nama : " . $dataMhs['nama'] . "\n" .
+                                        "Fakultas : " . $dataMhs['fak'] . "\n" .
+                                        "Cluster : " . $dataMhs['clus'] . "\n \n" .
+                                        "NILAI  \n" .
+                                        "Penugasan Online : 90 \n" .
+                                        "Penugasan 1 : 80 \n" .
+                                        "Penugasan Upload : 70 \n" .
+                                        "Kehadiran Seluruh rangkaian : 90%"
+                                    );
+                                } else {
+                                    $replyMessage = new TextMessageBuilder("user belum terdaftar");
+                                }
+                                $result = $bot->replyMessage($event['replyToken'], $replyMessage);
+                            }
+
+                            if (checkKeyMessage($arraytextMessage, $bio)) {
+                                $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=" . $profile['userId']);
+                                $data = json_decode($contents, true);
+                                if ($data['status'] == "oke") {
+                                    $store = file_get_contents(getenv('apisiam') . "165150701111005");
+                                    $dataMhs = json_decode($store, true);
+                                    $replyMessage = new TextMessageBuilder(
+                                        "DATA DIRI \n" .
+                                        "NIM : " . $dataMhs['nim'] . "\n" .
+                                        "Nama : " . $dataMhs['nama'] . "\n" .
+                                        "Tempat, Tanggal Lahir : " . $dataMhs['ttl']. "\n" .
+                                        "Agama : " . $dataMhs['agama'] . "\n" .
+                                        "Fakultas : " . $dataMhs['fak'] . "\n" .
+                                        "Program Studi : " . $dataMhs['prod'] . "\n" .
+                                        "Angkatan : " . $dataMhs['ang'] . "\n" .
+                                        "Cluster : " . $dataMhs['clus'] . ""
                                     );
                                 } else {
                                     $replyMessage = new TextMessageBuilder("user belum terdaftar");
@@ -185,10 +209,10 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     $multipleMessageBuilder->add(new ImageMessageBuilder("https://arizalmhmd5.000webhostapp.com/" . $product[1] . ".jpg", "https://arizalmhmd5.000webhostapp.com/" . $product[1] . ".jpg")) // tampilkan gambar product
                         ->add(new TextMessageBuilder( // deskripsi product
                             "Deskripsi Barang \n" .
-                                "Nama Barang : " . $product[1] ."\n".
-                                "Berat Barang : 1 Kwintal\n" .
-                                "Dibuat Di : Zimbabwe\n" .
-                                "Pembuat : Ovuvuevuevue Enyetuenwuevue Ugbemugbem Osas"
+                            "Nama Barang : " . $product[1] ."\n".
+                            "Berat Barang : 1 Kwintal\n" .
+                            "Dibuat Di : Zimbabwe\n" .
+                            "Pembuat : Ovuvuevuevue Enyetuenwuevue Ugbemugbem Osas"
                         ));
                     $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                 }
@@ -217,6 +241,22 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     }
                     $result = $bot->replyMessage($event['replyToken'], $replyMessage);
                 }
+
+                if (strtolower(substr($textMessage, 0, 7)) == "getdata") {
+                    $store = file_get_contents(getenv('apisiam') . substr($textMessage, 8, 15));
+                    $dataMhs = json_decode($store, true);
+                    $replyMessage = new TextMessageBuilder(
+                        "DATA DIRI \n" .
+                        "NIM : " . $dataMhs['nim'] . "\n" .
+                        "Nama : " . $dataMhs['nama'] . "\n" .
+                        "Tempat, Tanggal Lahir : " . $dataMhs['ttl'] . "\n" .
+                        "Agama : " . $dataMhs['agama'] . "\n" .
+                        "Fakultas : " . $dataMhs['fak'] . "\n" .
+                        "Program Studi : " . $dataMhs['prod'] . "\n" .
+                        "Angkatan : " . $dataMhs['ang'] . "\n" .
+                        "Cluster : " . $dataMhs['clus'] . ""
+                    );
+                }
             }
         }
     }
@@ -226,7 +266,7 @@ $app->run();
 function checkKeyMessage($arr1, $arr2) // check elements of arrays
 {
     foreach ($arr1 as $key) {
-        if (in_array($key, $arr2)) {
+        if (in_array(strtolower($key), $arr2)) {
             return true;
         }
     }
