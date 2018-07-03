@@ -190,7 +190,12 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         $store = file_get_contents(getenv('apisiam')."165150701111005");
                         $dataMhs = json_decode($store, TRUE);
                         $replyMessage = new TextMessageBuilder(
-                            "Nilai ".$dataMhs['nama']."\n".
+                            "DATA DIRI \n".
+                            "NIM : ".$dataMhs['nim']."\n".
+                            "Nama : ".$dataMhs['nama']."\n".
+                            "Fakultas : ".$dataMhs['fak']."\n".
+                            "Cluster : ".$dataMhs['clus']."\n \n".
+                            "NILAI  \n".
                             "Penugasan Online : 90 \n" .
                             "Penugasan 1 : 80 \n" .
                             "Penugasan Upload : 70 \n" .
