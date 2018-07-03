@@ -256,6 +256,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         "Angkatan : " . $dataMhs['ang'] . "\n" .
                         "Cluster : " . $dataMhs['clus'] . ""
                     );
+                    $result = $bot->replyMessage($event['replyToken'], $replyMessage);
                 }
             }
         }
