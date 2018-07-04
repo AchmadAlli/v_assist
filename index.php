@@ -73,10 +73,11 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                 $arraytextMessage = explode( ' ', strtolower($textMessage) );
 
                 // keywords
+                $sapaan = ["hi", "hii", "hai", "hello", "helo", "hi!", "hii!", "hai!", "hello!", "helo!"];
                 $tolong = ["tolong", "tlg", "tlong", "help", "please", "please!", "please?"];
                 $marketPlace = ["toko", "market place", "market", "merchandise", "merchand", "lapak", "shop"];
-                $nilai = ["nilai", "penilaian", "skor", "poin", "point", "grade"];
-                $bio = ["bio", "biodata", "data diri"];
+                $nilai = ["nilai", "nilaiku", "penilaian", "skor", "poin", "point", "grade"];
+                $bio = ["bio", "biodata"];
 
                 if (strtolower(substr($textMessage, 0, 6)) == 'apakah') // kerang ajaib
                 {
@@ -84,13 +85,13 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     $result = $bot->replyText($event['replyToken'], $replyMessage);
                 }
 
-                if (strtolower($textMessage) == 'hai') // perkenalan
+                if (checkKeyMessage($arraytextMessage, $sapaan)) // perkenalan
                 {
-                    $replyMessage = "Hai namaku adalah VISI, aku adalah virtual assisten kamu (love)";
+                    $replyMessage = "Hai aku adalah Virtual Assistant kamu. Aku ditugaskan untuk mendampingimu selama RAJA BRAWIJAYA 2018 berlangsung. \n\n Semoga kamu betah sama aku ya !";
                     $result = $bot->replyText($event['replyToken'], $replyMessage);
                 }
 
-                if (strtolower($textMessage) == 'userid')
+                if (strtolower($textMessage) == 'userid') // menampilkan userid
                 {
                     $datanya = $getprofile->getJSONDecodedBody();
                     $result = $bot->replyText($event['replyToken'], $profile['userId']);
@@ -98,111 +99,90 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
 
                 if (checkKeyMessage($arraytextMessage, $tolong)) 
                 {
-                    // jika group
-                    if ($event['source']['type'] == 'group' or $event['source']['type'] == 'room') {
                     // bla bla bla
-                        if ($event['message']['type'] == 'text') {
+                    if ($event['message']['type'] == 'text')  // menerima trigger berupa chat text
+                    {
 
-                            if (strtolower($textMessage) == 'listbarang') // carousel market place
-                            {
-                                $carouselTemplateBuilder = new CarouselTemplateBuilder([
-                                    new CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
-                                        new MessageTemplateActionBuilder('Detail', 'detail-barang1'),
-                                        new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
-                                    ]),
-                                    new CarouselColumnTemplateBuilder("Sticker", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
-                                        new MessageTemplateActionBuilder('Detail', 'detail-barang2'),
-                                        new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
-                                    ]),
-                                ]);
-                                $templateMessage = new TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
-                                $result = $bot->replyMessage($event['replyToken'], $templateMessage);
-                            }
+                        if (checkKeyMessage($arraytextMessage, $marketPlace)) // carousel market place
+                        {
+                            $carouselTemplateBuilder = new CarouselTemplateBuilder([
+                                new CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'detail-barang1'),
+                                    new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
+                                ]),
+                                new CarouselColumnTemplateBuilder("Sticker", "Rp 10.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'detail-barang2'),
+                                    new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
+                                ]),
+                                new CarouselColumnTemplateBuilder("Gelang Aluminium", "Rp 100,-", "https://arizalmhmd5.000webhostapp.com/barang3.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'detail-barang3'),
+                                    new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
+                                ]),
+                                new CarouselColumnTemplateBuilder("Gelang Silicon", "Rp 100.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang4.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'detail-barang4'),
+                                    new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
+                                ]),
+                                new CarouselColumnTemplateBuilder("Sticker UB", "Rp 1.000.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang5.jpg", [
+                                    new MessageTemplateActionBuilder('Detail', 'detail-barang5'),
+                                    new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
+                                ]),
+                            ]);
+                            $templateMessage = new TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
+                            $result = $bot->replyMessage($event['replyToken'], $templateMessage);
                         }
-                    } else { // jika pc
-                    // bla bla bla
-                        if ($event['message']['type'] == 'text') {
 
-                            if (checkKeyMessage($arraytextMessage, $marketPlace)) // carousel market place
-                            {
-                                $carouselTemplateBuilder = new CarouselTemplateBuilder([
-                                    new CarouselColumnTemplateBuilder("Gantungan", "Rp 1.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang1.jpg", [
-                                        new MessageTemplateActionBuilder('Detail', 'detail-barang1'),
-                                        new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
-                                    ]),
-                                    new CarouselColumnTemplateBuilder("Sticker", "Rp 10.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang2.jpg", [
-                                        new MessageTemplateActionBuilder('Detail', 'detail-barang2'),
-                                        new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
-                                    ]),
-                                    new CarouselColumnTemplateBuilder("Gelang Aluminium", "Rp 100,-", "https://arizalmhmd5.000webhostapp.com/barang3.jpg", [
-                                        new MessageTemplateActionBuilder('Detail', 'detail-barang3'),
-                                        new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
-                                    ]),
-                                    new CarouselColumnTemplateBuilder("Gelang Silicon", "Rp 100.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang4.jpg", [
-                                        new MessageTemplateActionBuilder('Detail', 'detail-barang4'),
-                                        new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
-                                    ]),
-                                    new CarouselColumnTemplateBuilder("Sticker UB", "Rp 1.000.000.000,-", "https://arizalmhmd5.000webhostapp.com/barang5.jpg", [
-                                        new MessageTemplateActionBuilder('Detail', 'detail-barang5'),
-                                        new UriTemplateActionBuilder('Pre Order', 'http://rajabrawijaya.ub.ac.id/')
-                                    ]),
-                                ]);
-                                $templateMessage = new TemplateMessageBuilder('Daftar Merchandise', $carouselTemplateBuilder);
-                                $result = $bot->replyMessage($event['replyToken'], $templateMessage);
+                        if (checkKeyMessage($arraytextMessage, $nilai)) // menampilkan nilai
+                        {
+                            $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=" . $profile['userId']);
+                            $data = json_decode($contents, true);
+                            if ($data['status'] == "oke") {
+                                $store = file_get_contents(getenv('apisiam') . "165150701111005");
+                                $dataMhs = json_decode($store, true);
+                                $replyMessage = new TextMessageBuilder(
+                                    "DATA DIRI \n" .
+                                    "NIM : " . $dataMhs['nim'] . "\n" .
+                                    "Nama : " . $dataMhs['nama'] . "\n" .
+                                    "Fakultas : " . $dataMhs['fak'] . "\n" .
+                                    "Cluster : " . $dataMhs['clus'] . "\n \n" .
+                                    "NILAI  \n" .
+                                    "Penugasan Online : 90 \n" .
+                                    "Penugasan 1 : 80 \n" .
+                                    "Penugasan Upload : 70 \n" .
+                                    "Kehadiran Seluruh rangkaian : 90%"
+                                );
+                            } else {
+                                $replyMessage = new TextMessageBuilder("user belum terdaftar");
                             }
+                            $result = $bot->replyMessage($event['replyToken'], $replyMessage);
+                        }
 
-                            if (checkKeyMessage($arraytextMessage, $nilai)) // menampilkan nilai
-                            {
-                                $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=" . $profile['userId']);
-                                $data = json_decode($contents, true);
-                                if ($data['status'] == "oke") {
-                                    $store = file_get_contents(getenv('apisiam') . "165150701111005");
-                                    $dataMhs = json_decode($store, true);
-                                    $replyMessage = new TextMessageBuilder(
-                                        "DATA DIRI \n" .
-                                        "NIM : " . $dataMhs['nim'] . "\n" .
-                                        "Nama : " . $dataMhs['nama'] . "\n" .
-                                        "Fakultas : " . $dataMhs['fak'] . "\n" .
-                                        "Cluster : " . $dataMhs['clus'] . "\n \n" .
-                                        "NILAI  \n" .
-                                        "Penugasan Online : 90 \n" .
-                                        "Penugasan 1 : 80 \n" .
-                                        "Penugasan Upload : 70 \n" .
-                                        "Kehadiran Seluruh rangkaian : 90%"
-                                    );
-                                } else {
-                                    $replyMessage = new TextMessageBuilder("user belum terdaftar");
-                                }
-                                $result = $bot->replyMessage($event['replyToken'], $replyMessage);
+                        if (checkKeyMessage($arraytextMessage, $bio))  // menampilkan biodata
+                        {
+                            $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=" . $profile['userId']);
+                            $data = json_decode($contents, true);
+                            if ($data['status'] == "oke") {
+                                $store = file_get_contents(getenv('apisiam') . "165150701111005");
+                                $dataMhs = json_decode($store, true);
+                                $replyMessage = new TextMessageBuilder(
+                                    "DATA DIRI \n" .
+                                    "NIM : " . $dataMhs['nim'] . "\n" .
+                                    "Nama : " . $dataMhs['nama'] . "\n" .
+                                    "Tempat, Tanggal Lahir : " . $dataMhs['ttl']. "\n" .
+                                    "Agama : " . $dataMhs['agama'] . "\n" .
+                                    "Fakultas : " . $dataMhs['fak'] . "\n" .
+                                    "Program Studi : " . $dataMhs['prod'] . "\n" .
+                                    "Angkatan : " . $dataMhs['ang'] . "\n" .
+                                    "Cluster : " . $dataMhs['clus'] . ""
+                                );
+                            } else {
+                                $replyMessage = new TextMessageBuilder("user belum terdaftar");
                             }
-
-                            if (checkKeyMessage($arraytextMessage, $bio)) {
-                                $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=" . $profile['userId']);
-                                $data = json_decode($contents, true);
-                                if ($data['status'] == "oke") {
-                                    $store = file_get_contents(getenv('apisiam') . "165150701111005");
-                                    $dataMhs = json_decode($store, true);
-                                    $replyMessage = new TextMessageBuilder(
-                                        "DATA DIRI \n" .
-                                        "NIM : " . $dataMhs['nim'] . "\n" .
-                                        "Nama : " . $dataMhs['nama'] . "\n" .
-                                        "Tempat, Tanggal Lahir : " . $dataMhs['ttl']. "\n" .
-                                        "Agama : " . $dataMhs['agama'] . "\n" .
-                                        "Fakultas : " . $dataMhs['fak'] . "\n" .
-                                        "Program Studi : " . $dataMhs['prod'] . "\n" .
-                                        "Angkatan : " . $dataMhs['ang'] . "\n" .
-                                        "Cluster : " . $dataMhs['clus'] . ""
-                                    );
-                                } else {
-                                    $replyMessage = new TextMessageBuilder("user belum terdaftar");
-                                }
-                                $result = $bot->replyMessage($event['replyToken'], $replyMessage);
-                            }
+                            $result = $bot->replyMessage($event['replyToken'], $replyMessage);
                         }
                     }
                 }
 
-                if (strtolower(substr($textMessage, 0, 6)) == 'detail') // tampilkan detail product
+                if (strtolower(substr($textMessage, 0, 6)) == 'detail') // menampilkan detail product
                 {
                     $product = explode('-', $textMessage, 2);
                     $multipleMessageBuilder = new MultiMessageBuilder;
@@ -217,32 +197,8 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                 }
 
-                if (strtolower($textMessage) == "getnilai")
+                if (strtolower(substr($textMessage, 0, 7)) == "getdata")  // menampilkan biodata
                 {
-                    $contents = file_get_contents("http://arizalmhmd5.000webhostapp.com/API.php?user_id=".$profile['userId']);
-                    $data = json_decode($contents, TRUE);
-                    if ($data['status'] == "oke") {
-                        $store = file_get_contents(getenv('apisiam')."165150701111005");
-                        $dataMhs = json_decode($store, TRUE);
-                        $replyMessage = new TextMessageBuilder(
-                            "DATA DIRI \n".
-                            "NIM : ".$dataMhs['nim']."\n".
-                            "Nama : ".$dataMhs['nama']."\n".
-                            "Fakultas : ".$dataMhs['fak']."\n".
-                            "Cluster : ".$dataMhs['clus']."\n \n".
-                            "NILAI  \n".
-                            "Penugasan Online : 90 \n" .
-                            "Penugasan 1 : 80 \n" .
-                            "Penugasan Upload : 70 \n" .
-                            "Kehadiran Seluruh rangkaian : 90%"
-                        );
-                    }else {
-                        $replyMessage = new TextMessageBuilder("user belum terdaftar");
-                    }
-                    $result = $bot->replyMessage($event['replyToken'], $replyMessage);
-                }
-
-                if (strtolower(substr($textMessage, 0, 7)) == "getdata") {
                     $store = file_get_contents(getenv('apisiam') . substr($textMessage, 8, 15));
                     $dataMhs = json_decode($store, true);
                     $replyMessage = new TextMessageBuilder(
@@ -254,7 +210,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                         "Fakultas : " . $dataMhs['fak'] . "\n" .
                         "Program Studi : " . $dataMhs['prod'] . "\n" .
                         "Angkatan : " . $dataMhs['ang'] . "\n" .
-                        "Cluster : " . $dataMhs['clus'] . ""
+                        "Cluster : " . $dataMhs['clus']
                     );
                     $result = $bot->replyMessage($event['replyToken'], $replyMessage);
                 }
