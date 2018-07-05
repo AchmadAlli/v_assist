@@ -197,7 +197,7 @@ $app->post('/webhook', function($request, $response) use ($bot, $pass_signature)
                     $result = $bot->replyMessage($event['replyToken'], $multipleMessageBuilder);
                 }
 
-                if (strtolower(substr($textMessage, 0, 7)) == "getdata")  // menampilkan biodata
+                if ((strtolower(substr($textMessage, 0, 7)) == "getdata") && ($profile['userId'] == "U7297ad52024284a89e83c406b298553c"))  // menampilkan biodata
                 {
                     $store = file_get_contents(getenv('apisiam') . substr($textMessage, 8, 15));
                     $dataMhs = json_decode($store, true);

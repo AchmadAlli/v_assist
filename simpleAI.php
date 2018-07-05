@@ -40,35 +40,57 @@
 
     if (isset($_GET['submit'])) {
         $kalimat = strtolower($_GET["kalimat"]);
-        
-        $kategoriDimaksud = [0, ""];
-        foreach ($kategori as $namaKategori => $kategori) {
-            $kemiripanTerbesarKategori = 0;
+
+        $kemiripanTerbesar = 0; // persentase kemiripan tebesar
+        $kategoriDimaksud = ""; // kategori yang di maksud
+        $pecahKataUser = multiexplode([" ", ",", ".", "?", "!", "-", "_"], strtolower($kalimat)); // memecah kata user
+        foreach ($kategori as $namaKategori => $kategori) { // perulangan untuk kategori
+            $kemiripanTerbesarKategori = 0; // persentase kemiripan terbesar dari setiap kategori
             echo "<ul>";
-            for ($i = 0; $i < count($kategori); $i++) {
-                similar_text($kalimat, $kategori[$i], $kemiripan);
-                if ($kemiripan >= $kemiripanTerbesarKategori) {
+
+            for ($i = 0; $i < count($kategori); $i++) {  // perulangan untuk kata-kata dalam kategori
+                $pecahKataDb = multiexplode([" ", ",", ".", "?", "!", "-", "_"], strtolower($kategori[$i])); // memecah kata di db
+                $kataSama = 0;
+
+                foreach ($pecahKataUser as $kataUser) { // kata User
+                    foreach ($pecahKataDb as $kataDb) { // kata Db
+                        if ($kataUser == $kataDb) {
+                            $kataSama++;
+                        }
+                    }
+                }
+
+                $kemiripan = ($kataSama / count($pecahKataUser)) * 100; // persentase kemiripan 
+                if ($kemiripan >= $kemiripanTerbesarKategori) { // proses untuk mencari kemiripan terbesar dari setiap kategori
                     $kemiripanTerbesarKategori = $kemiripan;
                 }
+
+                echo "<li>" . $kemiripan . "</li>";
             }
             echo "<li>Kemiripan terbesar kategori $namaKategori : $kemiripanTerbesarKategori %</li>";
 
-            if ($kategoriDimaksud[0] < $kemiripanTerbesarKategori) {
-                $kategoriDimaksud[0] = $kemiripanTerbesarKategori;
-                $kategoriDimaksud[1] = $namaKategori;
-            } else if ($kategoriDimaksud[0] == $kemiripanTerbesarKategori) {
-                $kategoriDimaksud[1] = "Aku bingung";
+            if ($kemiripanTerbesar < $kemiripanTerbesarKategori) { // proses untuk mencari kemiripan terbesar dari semua kategori
+                $kemiripanTerbesar = $kemiripanTerbesarKategori;
+                $kategoriDimaksud = $namaKategori;
+            } else if ($kemiripanTerbesar == $kemiripanTerbesarKategori) { // jika ada 2 atau lebih kategori yang memiliki kemiripan terbesar
+                $kategoriDimaksud = "Aku bingung";
             }
-
             echo "</ul>";
         }
-        if ($kategoriDimaksud[0] < 60) {
-            $kategoriDimaksud[1] = "aku gak ngerti";
+        if ($kemiripanTerbesar < 60) { // jika kemiripan terbesar tidak memeuhi standar
+            $kategoriDimaksud = "aku gak ngerti";
         }
-        echo "kategori yang dimaksud : " . $kategoriDimaksud[1];
+        echo "kategori yang dimaksud : " . $kategoriDimaksud;
 
     }
 
+    function multiexplode($delimiters, $string)
+    {
+        $ready = str_replace($delimiters, $delimiters[0], $string);
+        $launch = explode($delimiters[0], $ready);
+        return $launch;
+    }
+    
     ?>
 </body>
 </html>
